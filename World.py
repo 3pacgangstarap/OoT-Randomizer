@@ -481,7 +481,8 @@ class World:
              or self.distribution.distribution.src_dict['_settings']['triforce_hunt'] == 'random'):
             self.settings.triforce_hunt = random.choice(['off', 'on'])
             self.randomized_list.append('triforce_hunt')
-            self.set_random_triforce_values()
+            if self.settings.triforce_hunt == 'on':
+                self.set_random_triforce_values()
         
         if self.settings.big_poe_count_random and 'big_poe_count' not in dist_keys:
             self.settings.big_poe_count = random.randint(1, self.settings.big_poe_count)
