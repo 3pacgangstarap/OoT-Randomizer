@@ -90,22 +90,10 @@ class World:
                 self.selected_adult_trade_item = plando_adult_trade[0][1].item # ugly but functional, see the loop in Plandomizer.WorldDistribution.fill for how this is indexed
         self.adult_trade_starting_inventory: str = ''
 
-        if resolve_randomized_settings:
-            self.resolve_random_settings()
-
         if (settings.open_forest == 'closed'
             and (self.shuffle_special_interior_entrances or settings.shuffle_hideout_entrances or settings.shuffle_overworld_entrances
                  or settings.warp_songs or settings.spawn_positions  or settings.decouple_entrances or len(settings.mix_entrance_pools) > 1)):
             self.settings.open_forest = 'closed_deku'
-
-        if settings.triforce_goal_per_world > settings.triforce_count_per_world:
-            raise ValueError("Triforces required cannot be more than the triforce count.")
-        self.triforce_goal: int = settings.triforce_goal_per_world * settings.world_count
-
-        if self.settings.triforce_hunt == 'on':
-            # Pin shuffle_ganon_bosskey to 'triforce' when triforce_hunt is enabled
-            # (specifically, for randomize_settings)
-            self.settings.shuffle_ganon_bosskey = 'triforce'
 
         # trials that can be skipped will be decided later
         self.skipped_trials: dict[str, bool] = {
@@ -160,6 +148,18 @@ class World:
             'Shadow Temple': False,
             'Ganons Castle': False
         }
+
+        if resolve_randomized_settings:
+            self.resolve_random_settings()
+
+        if settings.triforce_goal_per_world > settings.triforce_count_per_world:
+            raise ValueError("Triforces required cannot be more than the triforce count.")
+        self.triforce_goal: int = settings.triforce_goal_per_world * settings.world_count
+
+        if self.settings.triforce_hunt == 'on':
+            # Pin shuffle_ganon_bosskey to 'triforce' when triforce_hunt is enabled
+            # (specifically, for randomize_settings)
+            self.settings.shuffle_ganon_bosskey = 'triforce'
 
         self.song_notes: dict[str, Song] = generate_song_list(self,
             frog=settings.ocarina_songs in ('frog', 'all'),
