@@ -582,6 +582,7 @@ class SettingInfos:
                          - Rainbow Bridge Requirements
                          - Triforce Hunt
                          - Light Arrow Cutscene Condition
+                         - Dungeons Have One Major Item
                          - MQ Dungeon Mode
                          - Pre-completed Dungeons Mode
                          - Ganon's Boss Key
@@ -591,8 +592,8 @@ class SettingInfos:
             True: {
                 'sections': ['shuffle_section'],
                 'settings': [
-                    'open_forest', 'open_kakariko', 'open_door_of_time', 'zora_fountain', 'gerudo_fortress',
-                    'free_bombchu_drops', 'one_item_per_dungeon', 'trials_random', 'trials',
+                    'open_forest', 'open_kakariko', 'open_door_of_time', 'zora_fountain',
+                    'gerudo_fortress', 'free_bombchu_drops', 'trials_random', 'trials',
                     'starting_age', 'shuffle_interior_entrances', 'shuffle_hideout_entrances',
                     'shuffle_grotto_entrances', 'shuffle_dungeon_entrances', 'shuffle_bosses',
                     'shuffle_overworld_entrances', 'mix_entrance_pools', 'decouple_entrances',
@@ -2437,9 +2438,6 @@ class SettingInfos:
             fail to generate, consider turning this option off.
         ''',
         shared         = True,
-        gui_params     = {
-            'randomize_key': 'randomize_settings',
-        },
     )
 
     shuffle_song_items = Combobox(
