@@ -474,8 +474,8 @@
         "scene": "Sacred Forest Meadow",
         "hint": "SACRED_FOREST_MEADOW",
         "locations": {
-            "SFM Near Lost Woods Wonderitem": "True"
-            "SFM Child Wolfos": "is_child and can_kill_wolfos",
+            "SFM Near Lost Woods Wonderitem": "True",
+            "SFM Child Wolfos": "is_child and can_kill_wolfos"
         },
         "exits": {
             "LW Beyond Mido": "True",
