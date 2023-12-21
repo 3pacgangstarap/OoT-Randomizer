@@ -2993,6 +2993,18 @@ class SettingInfos:
         },
     )
 
+    shuffle_fishies = Checkbutton(
+        gui_text       = 'Shuffle Fishing Game Fish',
+        gui_tooltip    = '''\
+            Fish shuffle?
+        ''',
+        default        = False,
+        shared         = True,
+        gui_params     = {
+            'randomize_key': 'randomize_settings',
+        },
+    )
+
     shuffle_loach_reward = Combobox(
         gui_text       = 'Shuffle Hyrule Loach Reward',
         gui_tooltip    = '''\
@@ -3016,16 +3028,16 @@ class SettingInfos:
         ''',
         default        = 'off',
         choices        = {
-            'off': 'Off',
+            'off':     'Off',
             'vanilla': 'Vanilla Behavior',
-            'easy': 'Easier Behavior'
+            'easy':    'Easier Behavior',
         },
         shared         = True,
         gui_params     = {
             'randomize_key': 'randomize_settings',
             'distribution': [
                 ('off',          1),
-                ('easy',         1)
+                ('easy',         1),
             ],
         },
     )
@@ -3487,19 +3499,25 @@ class SettingInfos:
         },
     )
 
-    minor_items_as_major_chest = Checkbutton(
+    minor_items_as_major_chest = MultipleSelect(
         gui_text       = 'Minor Items in Big/Gold chests',
+        choices        = {
+            'bombchus': 'Bombchus',
+            'shields':  'Deku & Hylian Shields',
+            'capacity': 'Deku Stick & Nut Capacity',
+        },
         gui_tooltip    = '''\
-            Chests with Hylian Shield, Deku Shield, or
-            Bombchus will appear in Big and/or Gold chests,
-            depending on the Chest Appearance Matches
-            Contents setting. Bombchus are always in big
-            chests if Add Bombchu Bag and Drops is on.
+            Chests with Hylian or Deku Shields, Deku Stick
+            or Nut Capacity, or Bombchus will appear in Big
+            and/or Gold chests, depending on the Chest
+            Appearance Matches Contents setting. Bombchus
+            are always in big chests if Add Bombchu Bag and
+            Drops is on.
         ''',
         shared         = True,
-        disabled_default = False,
-        gui_params       = {
-            "hide_when_disabled" : True
+        default        = [],
+        gui_params     = {
+            "hide_when_disabled" : True,
         },
     )
 
@@ -4070,7 +4088,7 @@ class SettingInfos:
         default        = 'right',
         choices        = {
             'off':   'Off',
-            'left': 'On the left',
+            'left':  'On the left',
             'right': 'On the right',
         },
     )
