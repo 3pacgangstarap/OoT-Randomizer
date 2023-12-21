@@ -347,7 +347,6 @@
             "Spirit Temple Adult Climb Flying Pot 2": "has_soul(Flying_Pot)",
             "Spirit Temple Statue Room Adult Side Armos": "can_kill_armos",
             "Spirit Temple Adult Climb Like Like": "can_kill_likelike",
-            "Spirit Temple Adult Climb Wallmaster": "can_kill_wallmaster",
             "Spirit Temple Adult Climb Floormaster": "can_kill_floormaster"
         },
         "exits": {
