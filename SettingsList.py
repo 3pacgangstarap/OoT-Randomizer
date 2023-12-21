@@ -3842,7 +3842,8 @@ class SettingInfos:
             ''',
         gui_params     = {
             'hide_when_disabled' : True,
-        }
+        },
+        shared         = True,
     )
 
     minimap_enemy_tracker = Checkbutton(
@@ -3864,7 +3865,8 @@ class SettingInfos:
             ''',
         gui_params     = {
             'hide_when_disabled' : True,
-        }
+        },
+        shared         = True,
     )
 
     item_pool_value = Combobox(
@@ -4013,6 +4015,9 @@ class SettingInfos:
         ''',
         shared         = True,
         default        = False,
+        gui_params     = {
+            'randomize_key': 'randomize_settings',
+        },
     )
 
     adult_trade_start = MultipleSelect(
@@ -4036,6 +4041,9 @@ class SettingInfos:
             Select the items to shuffle in the adult trade sequence.
         ''',
         shared         = True,
+        gui_params     = {
+            'randomize_key': 'randomize_settings',
+        },
     )
 
     # Cosmetics
