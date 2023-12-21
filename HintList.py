@@ -215,7 +215,7 @@ def tokens_required_by_settings(world: World) -> int:
 # Hints required under certain settings
 conditional_always: dict[str, Callable[[World], bool]] = {
     'Market 10 Big Poes':           lambda world: world.settings.big_poe_count > 3,
-    'Deku Theater Mask of Truth':   lambda world: world.settings.complete_mask_quest=='off' and 'Mask of Truth' not in world.settings.shuffle_child_trade,
+    'Deku Theater Mask of Truth':   lambda world: not world.settings.complete_mask_quest and 'Mask of Truth' not in world.settings.shuffle_child_trade,
     'Song from Ocarina of Time':    lambda world: stones_required_by_settings(world) < 2,
     'HF Ocarina of Time Item':      lambda world: stones_required_by_settings(world) < 2,
     'Sheik in Kakariko':            lambda world: medallions_required_by_settings(world) < 5,
@@ -224,7 +224,7 @@ conditional_always: dict[str, Callable[[World], bool]] = {
     'Kak 40 Gold Skulltula Reward': lambda world: tokens_required_by_settings(world) < 40 and '40_skulltulas' not in world.settings.misc_hints,
     'Kak 50 Gold Skulltula Reward': lambda world: tokens_required_by_settings(world) < 50 and '50_skulltulas' not in world.settings.misc_hints,
     'ZR Frogs Ocarina Game':        lambda world: 'frogs2' not in world.settings.misc_hints,
-    'LH Loach Fishing':             lambda world: world.settings.shuffle_loach_reward=='vanilla',
+    'LH Loach Fishing':             lambda world: world.settings.shuffle_loach_reward == 'vanilla',
 }
 
 # Entrance hints required under certain settings
@@ -240,7 +240,7 @@ conditional_entrance_always: dict[str, Callable[[World], bool]] = {
 # Dual hints required under certain settings
 conditional_dual_always: dict[str, Callable[[World], bool]] = {
     'HF Ocarina of Time Retrieval': lambda world: stones_required_by_settings(world) < 2,
-    'Deku Theater Rewards':         lambda world: world.settings.complete_mask_quest=='off',
+    'Deku Theater Rewards':         lambda world: not world.settings.complete_mask_quest,
     'ZR Frogs Rewards':             lambda world: not world.settings.shuffle_frog_song_rupees and 'frogs2' not in world.settings.misc_hints,
 }
 
@@ -253,17 +253,17 @@ conditional_sometimes: dict[str, Callable[[World], bool]] = {
     'ZD King Zora Thawed':                      lambda world: not world.settings.adult_trade_shuffle or 'Eyeball Frog' not in world.settings.adult_trade_start,
 
     # Conditional dual hints
-    'GV Pieces of Heart Ledges':                lambda world: not world.settings.shuffle_cows and world.settings.tokensanity not in ['overworld', 'all'],
+    'GV Pieces of Heart Ledges':                lambda world: not world.settings.shuffle_cows and world.settings.tokensanity not in ('overworld', 'all'),
     'LH Adult Bean Destination Checks':         lambda world: world.settings.shuffle_interior_entrances == 'off',
     'Castle Fairy Checks':                      lambda world: world.settings.shuffle_interior_entrances == 'off',
     'King Zora Items':                          lambda world: world.settings.adult_trade_shuffle and 'Eyeball Frog' in world.settings.adult_trade_start,
 
-    'Fire Temple Lower Loop':                   lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
-    'Water Temple River Loop Chests':           lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
-    'Water Temple MQ Lower Checks':             lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
-    'Spirit Temple Child Lower':                lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
-    'Spirit Temple Adult Lower':                lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
-    'Shadow Temple Invisible Blades Chests':    lambda world: world.settings.tokensanity not in ['dungeons', 'all'],
+    'Fire Temple Lower Loop':                   lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
+    'Water Temple River Loop Chests':           lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
+    'Water Temple MQ Lower Checks':             lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
+    'Spirit Temple Child Lower':                lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
+    'Spirit Temple Adult Lower':                lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
+    'Shadow Temple Invisible Blades Chests':    lambda world: world.settings.tokensanity not in ('dungeons', 'all'),
 
     # Conditional entrance hints
     'Ganons Castle Ledge -> Ganons Castle Lobby': lambda world: (world.settings.bridge != 'open'
@@ -526,6 +526,14 @@ hintTable: dict[str, tuple[list[str] | str, Optional[str], str | list[str]]] = {
     'Ocarina C right Button':                                   (["a middle note"], "the Ocarina C right Button", 'item'),
     'Fairy Drop':                                               (["an annoying companion"], "a Stray Fairy", 'item'),
     'Nothing':                                                  (["emptiness", "loneliness"], "Nothing", 'item'),
+    'Fishing Rod':                                              (["a Fishing Rod"], "a Fishing Rod", 'item'),
+    'Fish (Child 6 lb)':                                        (["chum"], "a small fish (child)", 'item'),
+    'Fish (Child 8 lb)':                                        (["chum"], "a medium-sized fish (child)", 'item'),
+    'Fish (Child 10 lb)':                                       (["a LUNKER"], "a record setting fish (child)", 'item'),
+    'Fish (Adult 10 lb)':                                       (["chum"], "a small fish (adult)", 'item'),
+    'Fish (Adult 12 lb)':                                       (["chum"], "a medium-sized fish (adult)", 'item'),
+    'Fish (Adult 16 lb)':                                       (["a LUNKER"], "a record setting fish (adult)", 'item'),
+    'Hylian Loach':                                             (["a strange fish", "a Hylian Loach", 'item']),
 
     'Stalfos Soul': (["the souls of the Stalfos"], None, 'item'),
     'Octorok Soul': (["the souls of the Octorok"], None, 'item'),

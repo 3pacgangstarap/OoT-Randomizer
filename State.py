@@ -42,7 +42,7 @@ class State:
         return location.item.name
 
     def won(self) -> bool:
-        return self.won_triforce_hunt() if self.world.settings.triforce_hunt == 'on' else self.won_normal()
+        return self.won_triforce_hunt() if self.world.settings.triforce_hunt else self.won_normal()
 
     def won_triforce_hunt(self) -> bool:
         return self.has(Triforce_Piece, self.world.settings.triforce_goal_per_world)
@@ -153,7 +153,7 @@ class State:
             raise Exception(f"Item '{item.name}' lacks a `solver_id` and can not be used in `State.collect()`.")
         if 'Small Key Ring' in item.name and self.world.settings.keyring_give_bk:
             dungeon_name = item.name[:-1].split(' (', 1)[1]
-            if dungeon_name in ['Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple']:
+            if dungeon_name in ('Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple'):
                 bk = f'Boss Key ({dungeon_name})'
                 self.solv_items[ItemInfo.solver_ids[escape_name(bk)]] = 1
         if item.alias and item.alias_id is not None:
@@ -167,7 +167,7 @@ class State:
             raise Exception(f"Item '{item.name}' lacks a `solver_id` and can not be used in `State.remove()`.")
         if 'Small Key Ring' in item.name and self.world.settings.keyring_give_bk:
             dungeon_name = item.name[:-1].split(' (', 1)[1]
-            if dungeon_name in ['Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple']:
+            if dungeon_name in ('Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple'):
                 bk = f'Boss Key ({dungeon_name})'
                 self.solv_items[ItemInfo.solver_ids[escape_name(bk)]] = 0
         if item.alias and item.alias_id is not None and self.solv_items[item.alias_id] > 0:
@@ -185,7 +185,6 @@ class State:
         return (not self.world.shuffle_enemy_spawns or self.has(ItemInfo.solver_ids[escape_name(soul_str)]))
 
     def has_all_notes_for_song(self, song: str) -> bool:
-
         # Scarecrow needs 2 different notes
         if song == 'Scarecrow Song':
             return self.has_ocarina_buttons(2)
@@ -221,5 +220,5 @@ class State:
                 if item.solver_id is not None},
             **{event: self.solv_items[ItemInfo.solver_ids[event]]
                 for event in self.world.event_items
-                if self.solv_items[ItemInfo.solver_ids[event]]}
+                if self.solv_items[ItemInfo.solver_ids[event]]},
         }

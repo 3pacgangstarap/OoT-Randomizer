@@ -236,7 +236,6 @@ EnItem00_DropCollectibleFallAction_Hack:
 @@return:
     jr      ra
     nop
-
  
 drop_collectible_random_hook:
     addiu   sp, sp, -0x40

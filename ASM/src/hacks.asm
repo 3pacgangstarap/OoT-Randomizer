@@ -912,40 +912,6 @@ Actor_Spawn_Continue_Jump_Point:
 .orga 0xA99C98 ; In memory: 0x80023D38
     jal     Player_SpawnEntry_Hack
 
-; Hack Actor_RemoveFromCategory to prevent setting the room clear flag if the room has unspawned enemies from enemy spawn shuffle
-.orga 0xA9AFEC ; In memory: 0x8002508C
-; Replaces:
-;   jal     0x800206AC Flags_SetTempClear
-    jal     Actor_RemoveFromCategory_SetTempClear_Hack
-
-; Hack in Scene_CommandActorEntryList to reset the flag used to check if the room has unspawned enemies from enemy spawn shuffle
-.orga 0xAF786C ; In memory: 0x8008190C
-; Replaces:
-;   sb      t6, 0x1DEB(at)
-;   lw      v0, 0x0004(a1)
-;   lui     t0, 0x8012
-;   lui     at, 0x00FF
-;   sll     t7, v0, 4
-;   srl     t8, t7, 28
-
-;   Need to set up the stack because this function doesn't store it's RA
-    addiu   sp, sp, -0x20
-    sw      ra, 0x10(sp)
-    jal     Actor_UpdateAll_ClearRoomEnemyInhibit
-    sb      t6, 0x1DEB(at) ; some replaced code
-    lw      ra, 0x10(sp)
-    addiu   sp, sp, 0x20
-
-; ==============================================================
-; Gossip Stone Shuffle
-; ==============================================================
-
-; Hook gossip stone action function that is checking for a song
-.orga 0xEE78EC
-; Replaces: Entire Function
-    j       En_Gs_Update_Hack
-    nop
-
 ; Hack the function that kills actor when changing rooms to not kill overridden collectibles?
 ; Hack at the call to Actor_Kill
 .orga 0xA9ADAC ; In memory: 0x80024E4C
@@ -1008,7 +974,38 @@ Actor_Spawn_Continue_Jump_Point:
 ; Hack EnWonderItem_DropCollectible to drop flagged collectibles
 .orga 0xDE8C94
     j       EnWonderItem_DropCollectible_Hack
+; ==============================================================
+; Gossip Stone Shuffle
+; ==============================================================
+
+; Hook gossip stone action function that is checking for a song
+.orga 0xEE78EC
+; Replaces: Entire Function
+    j       En_Gs_Update_Hack
     nop
+; Hack Actor_RemoveFromCategory to prevent setting the room clear flag if the room has unspawned enemies from enemy spawn shuffle
+.orga 0xA9AFEC ; In memory: 0x8002508C
+; Replaces:
+;   jal     0x800206AC Flags_SetTempClear
+    jal     Actor_RemoveFromCategory_SetTempClear_Hack
+
+; Hack in Scene_CommandActorEntryList to reset the flag used to check if the room has unspawned enemies from enemy spawn shuffle
+.orga 0xAF786C ; In memory: 0x8008190C
+; Replaces:
+;   sb      t6, 0x1DEB(at)
+;   lw      v0, 0x0004(a1)
+;   lui     t0, 0x8012
+;   lui     at, 0x00FF
+;   sll     t7, v0, 4
+;   srl     t8, t7, 28
+
+;   Need to set up the stack because this function doesn't store it's RA
+    addiu   sp, sp, -0x20
+    sw      ra, 0x10(sp)
+    jal     Actor_UpdateAll_ClearRoomEnemyInhibit
+    sb      t6, 0x1DEB(at) ; some replaced code
+    lw      ra, 0x10(sp)
+    addiu   sp, sp, 0x20
 
 ; Runs when storing an incoming item to the player instance
 ; Replaces:
@@ -3865,7 +3862,7 @@ courtyard_guards_kill:
 ; Allow ice arrows to melt red ice
 ;===================================================================================================
 .orga 0xDB32C8
-    jal blue_fire_arrows ; replaces addiu at, zero, 0x00F0
+    jal     blue_fire_arrows ; replaces addiu at, zero, 0x00F0
 
 ;===================================================================================================
 ; Give each cursed skulltula house resident a different text ID, for skulltula reward hints
@@ -3951,7 +3948,7 @@ courtyard_guards_kill:
     lw      s0, 0x4(sp)
     jr      ra
     addiu   sp, sp, 0x10
-    ;Remove the rest of the old function
+    ; Remove the rest of the old function
     nop
     nop
     nop
@@ -3965,8 +3962,8 @@ courtyard_guards_kill:
 ;==================================================================================================
 ; Load current mask on scene change
 ;==================================================================================================
-;Player_Init (0x80844DE8)
-;Replaces:
+; Player_Init (0x80844DE8)
+; Replaces:
 ;jal     func_80834000
 .orga 0xBE28EC
     jal     player_save_mask
@@ -4241,3 +4238,4 @@ courtyard_guards_kill:
 .include("hacks/ovl_en_kusa.asm")
 .include("hacks/ovl_obj_mure2.asm")
 .include("hacks/ovl_obj_hana.asm")
+.include("hacks/ovl_fishing.asm")

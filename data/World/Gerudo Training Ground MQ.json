@@ -203,10 +203,10 @@
             "Gerudo Training Ground MQ Eye Statue Chest": "Bow",
             "Gerudo Training Ground MQ Second Iron Knuckle Chest": "has_soul(Iron_Knuckle) and has_soul(Torch_Slug)",
             "Gerudo Training Ground MQ Flame Circle Chest": "Hookshot or Bow or has_explosives",
+            "Gerudo Training Ground MQ Eye Statue Proximity Wonderitem": "can_use(Hover_Boots) or can_use(Longshot) or logic_gtg_eye_statue_wonderitem",
             "Gerudo Training Ground MQ Second Iron Knuckle": "has_soul(Iron_Knuckle)",
             "Gerudo Training Ground MQ Second Iron Knuckle Torch Slug 1": "has_soul(Torch_Slug)",
-            "Gerudo Training Ground MQ Second Iron Knuckle Torch Slug 2": "has_soul(Torch_Slug)",
-            "Gerudo Training Ground MQ Eye Statue Proximity Wonderitem": "can_use(Hover_Boots) or can_use(Longshot) or logic_gtg_eye_statue_wonderitem"
+            "Gerudo Training Ground MQ Second Iron Knuckle Torch Slug 2": "has_soul(Torch_Slug)"
         },
         "exits": {
             "Gerudo Training Ground Central Maze Right": "Megaton_Hammer",
