@@ -102,7 +102,7 @@ class World:
             'Fire': False,
             'Shadow': False,
             'Water': False,
-            'Forest': False,            
+            'Forest': False,
         }
 
         # empty dungeons will be decided later
@@ -175,7 +175,7 @@ class World:
         else:
             self.settings.hint_dist = 'custom'
             self.hint_dist_user = self.settings.hint_dist_user
-            
+
         # Allow omitting hint types that shouldn't be included
         for hint_type in hint_dist_keys:
             if 'distribution' in self.hint_dist_user and hint_type not in self.hint_dist_user['distribution']:
@@ -1479,6 +1479,6 @@ class World:
             if useless_area:
                 self.empty_areas[area] = area_info
 
-    
+
     def __repr__(self) -> str:
         return "W%d" % (self.id)
