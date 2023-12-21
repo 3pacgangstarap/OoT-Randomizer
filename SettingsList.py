@@ -2008,10 +2008,6 @@ class SettingInfos:
         gui_params     = {
             'randomize_key': 'randomize_settings',
         },
-        disable        = 
-        {
-            False : { 'settings': ['prevent_guay_respawns', 'minimap_enemy_tracker']},   
-        }
     )
 
     empty_dungeons_mode = Combobox(
