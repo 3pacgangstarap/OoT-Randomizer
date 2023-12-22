@@ -62,10 +62,10 @@
                 (logic_deku_basement_gs and (is_adult or Sticks or Kokiri_Sword))"
         },
         "exits": {
-            "Deku Tree Basement Ledge": "deku_tree_shortcuts or here(is_adult) or logic_deku_b1_skip"
+            "Deku Tree Basement Ledge": "deku_tree_shortcuts or here(is_adult) or logic_deku_b1_skip",
             "Deku Tree Basement Eye Switch Room": "
                 here(has_fire_source_with_torch or can_use(Bow)) and
-                here(can_use(Slingshot) or can_use(Bow))",
+                here(can_use(Slingshot) or can_use(Bow))"
         }
     },
     {
