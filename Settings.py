@@ -336,7 +336,7 @@ class Settings(SettingInfos):
                 else:
                     multi = []
                     for x in info.choices:
-                        multi.append(info.choices[x])
+                        multi.append(x)
                     setattr(self, info.name, random.sample(multi, random.randint(0, len(multi))))
 
         # Second pass to make sure disabled settings are set properly.
