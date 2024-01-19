@@ -1500,16 +1500,16 @@ class SettingInfos:
             'Own Dungeon': Silver Rupees can only appear
             in their respective dungeon.
 
+            'Regional': Silver Rupees can only appear in regions
+            near the original dungeon (including the dungeon
+            itself or other dungeons in the region).
+            <a href="https://wiki.ootrandomizer.com/index.php?title=Hints#Hint_Regions" target="_blank">The Wiki has a list of corresponding regions here.</a>
+            
             'Overworld Only': Silver Rupees can only appear
             outside of dungeons.
 
             'Any Dungeon': Silver Rupees can only appear in a
             dungeon, but not necessarily the dungeon they are for.
-
-            'Regional': Silver Rupees can only appear in regions
-            near the original dungeon (including the dungeon
-            itself or other dungeons in the region).
-            <a href="https://wiki.ootrandomizer.com/index.php?title=Hints#Hint_Regions" target="_blank">The Wiki has a list of corresponding regions here.</a>
 
             'Anywhere': Silver Rupees can appear
             anywhere in the world.
@@ -2844,10 +2844,10 @@ class SettingInfos:
 
             Wonderitems are invisible items in the game that will drop an
             item under a certain condition. These items will be marked in the game with a
-            sparkle effect when shuffle so they can be easily found.There
+            sparkle effect when shuffled so they can be easily found.There
             are 4 kinds of shuffled wonderitems.
 
-            Proximity Drop (Yellow): Gives an item when link touches it.
+            Proximity Drop (Yellow): Gives an item when Link touches it.
 
             Interact Switch (Red): Drops an item when hit with a certain damage type.
                              (Sword, bow, slingshot, or hookshot)
@@ -2857,7 +2857,7 @@ class SettingInfos:
                            in Kokiri Forest.
 
             Ordered Multitag (Cyan): Gives an item when a set of tag points are touched
-                              in a specific ordered. The only ordered multitag is the
+                              in a specific order. The only ordered multitag is the
                               grass stepping stones in Kokiri Forest.
         ''',
         default        = False,
@@ -2866,13 +2866,13 @@ class SettingInfos:
             'randomize_key': 'randomize_settings',
         },
     )
-
+    
     shuffle_gossipstones = Checkbutton(
         gui_text       = 'Shuffle Gossip Stones',
         gui_tooltip    = '''\
             Playing Song of Time to Gossip Stones
             will cause them to drop an item.
-            ''',
+        ''',
         default        = False,
         shared         = True,
         gui_params     = {
