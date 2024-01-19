@@ -2439,7 +2439,7 @@
             "Goron City": "True",
             "Death Mountain Summit": "
                 (here(can_pass_boulder('DMT_MIDDLE_BOULDER')) and ((boulder_type('DMT_UPPER_BOULDER') == 'BOULDER_TYPE.BROWN') and here(can_blast_or_smash)) or (boulder_type('DMT_UPPER_BOULDER') == 'BOULDER_TYPE.BRONZE') and here(can_use(Megaton_Hammer))) or
-                (is_adult and (here(can_plant_bean and ('Death Mountain Trail' in bean_locations or Progressive_Strength_Upgrade))) or
+                (is_adult and (here(can_plant_bean and ('Death Mountain Trail' in bean_locations or Progressive_Strength_Upgrade)))) or
                 (logic_dmt_climb_hovers and can_use(Hover_Boots))",
             "Dodongos Cavern Beginning": "
                 has_explosives or Progressive_Strength_Upgrade or is_adult",
