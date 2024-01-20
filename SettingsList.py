@@ -1472,9 +1472,9 @@ class SettingInfos:
             'remove':      'Remove',
             'vanilla':     'Vanilla Locations',
             'dungeon':     'Own Dungeon',
+            'regional':    'Regional',
             'overworld':   'Overworld Only',
             'any_dungeon': 'Any Dungeon',
-            'regional':    'Regional',
             'anywhere':    'Anywhere',
         },
         gui_tooltip    = '''\
@@ -1504,7 +1504,7 @@ class SettingInfos:
             near the original dungeon (including the dungeon
             itself or other dungeons in the region).
             <a href="https://wiki.ootrandomizer.com/index.php?title=Hints#Hint_Regions" target="_blank">The Wiki has a list of corresponding regions here.</a>
-            
+
             'Overworld Only': Silver Rupees can only appear
             outside of dungeons.
 
