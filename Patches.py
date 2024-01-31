@@ -2667,7 +2667,18 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     if world.settings.shuffle_boulders:
         broken_actors_cfg |= 0x80
         rom.write_byte(symbol, 0x80)
+        rom.write_byte(rom.sym('CFG_BOULDER_SHUFFLE'), 1)
         patch_boulders(world.boulders_by_id, rom)
+
+        # Update brown bombable boulders to use collider for explosion detection instead of fixed distance
+        # Hack in ObjBombiwa_Update at 0x80a8388c, ROM 
+        # Replaces:
+        # jal 0x8002650C
+        # or a1, s0, r0
+        # with
+        # jal 0x800264c8 (the explosion collision detection function)
+        # addiu a1, s0, 0x13c (passes the boulder's collider in a1 instead of the boulder itself)
+        rom.write_bytes(0xE061CC, [0x0c, 0x00, 0x99, 0x32, 0x26, 0x05, 0x01, 0x3c])
 
     rom.write_byte(broken_actors_symbol, broken_actors_cfg)
 

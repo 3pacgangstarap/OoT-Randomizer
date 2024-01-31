@@ -19,6 +19,12 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
 ## Index
 
 * [RealRob's Changelog](#realrob-changelog)
+  * [v78](#v78)
+  * [v77](#v77)
+  * [v76](#v76)
+  * [v75](#v75)
+  * [v74](#v74)
+  * [v73](#v73)
   * [v72](#v72)
   * [v71](#v71)
   * [v70](#v70)
@@ -97,6 +103,24 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
   * [4.0](#40)
 
 ## RealRob Changelog
+### v78
+  * Spirit Temple MQ Soul Shuffle Logic fixes
+
+### v77
+  * Fix Hylian loach fishing shuffle logic
+  * Fix MQ DC Soul Shuffle Logic
+
+### v76
+  * Add King Zora red ice to boulder shuffle
+
+### v75
+  * Don't break the red ice walls...
+
+### v74
+  * Properly resize boulders that replace red ice walls
+### v73
+  * Fix sandstorm transitions occassionally crashing
+
 ### v72
   * Don't delete all of the boulders
 

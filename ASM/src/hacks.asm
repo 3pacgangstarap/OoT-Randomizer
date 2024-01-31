@@ -243,7 +243,7 @@ Gameplay_InitSkybox:
 
     li      at, 0x117A4 //object table
     addu    a0, a0, at
-    jal     0x80081628          //check if object file is loaded
+    jal     Object_GetIndex          //check if object file is loaded. This calls the original version instead of the hooked one.
     addiu   a1, r0, 0x02        //gameplay_field_keep
     b       @return_check_if_object_loaded
     nop
@@ -3189,18 +3189,6 @@ courtyard_guards_kill:
     lhu     t4, 0x0252(s7)
     move    at, v0
 
-;==================================================================================================
-; King Zora Init Moved Check Override
-;==================================================================================================
-; Replaces: lhu     t0, 0x0EDA(v0)
-;           or      a0, s0, zero
-;           andi    t1, t0, 0x0008
-
-.orga 0xE565D0
-    jal     kz_moved_check
-    nop
-    or      a0, s0, zero
-
 ; ==================================================================================================
 ; HUD Button Colors
 ; ==================================================================================================
@@ -4260,3 +4248,4 @@ courtyard_guards_kill:
 .include("hacks/ovl_obj_hamishi.asm")
 .include("hacks/code.asm")
 .include("hacks/object_fixes.asm")
+.include("hacks/ovl_en_kz.asm")
