@@ -331,7 +331,13 @@ class Settings(SettingInfos):
             if getattr(self, info.gui_params['randomize_key']) and not_in_dist:
                 randomize_keys_enabled.add(info.gui_params['randomize_key'])
                 choices, weights = zip(*info.gui_params['distribution'])
-                setattr(self, info.name, random.choices(choices, weights=weights)[0])
+                if info.gui_type != 'MultipleSelect' or info.name == 'mix_entrance_pools':
+                    setattr(self, info.name, random.choices(choices, weights=weights)[0])
+                else:
+                    multi = []
+                    for x in info.choices:
+                        multi.append(x)
+                    setattr(self, info.name, random.sample(multi, random.randint(0, len(multi))))
 
         # Second pass to make sure disabled settings are set properly.
         # Stupid hack: disable randomize keys, then re-enable.
