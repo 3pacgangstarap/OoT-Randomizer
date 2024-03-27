@@ -1642,7 +1642,7 @@
     },
     {
         "region_name": "HC Garden",
-        "scene": "Castle Grounds",
+        "scene": "Castle Courtyard",
         "hint": "HYRULE_CASTLE",
         "locations": {
             "HC Zeldas Courtyard Mario Wonderitem": "can_use(Slingshot)"
@@ -1655,7 +1655,7 @@
     {
         # Directly reachable from Root in "Free Zelda"
         "region_name": "HC Garden Locations",
-        "scene": "Castle Grounds",
+        "scene": "Castle Courtyard",
         "hint": "HYRULE_CASTLE",
         "locations": {
             "HC Zeldas Letter": "True",
@@ -2414,9 +2414,10 @@
                 can_take_damage or can_use(Hover_Boots) or
                 (is_adult and (here(can_plant_bean and (has_explosives or Progressive_Strength_Upgrade)) or 'Death Mountain Trail' in bean_locations))",
             "DMT Rock Red Rupee": "
-                is_child and (
-                    (here(can_pass_boulder('DMT_MIDDLE_BOULDER')) and ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BROWN) and here(can_blast_or_smash)) or (boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BRONZE) and here(can_use(Megaton_Hammer)))
-                    or (logic_boomerang_boulders and Boomerang))",
+                (is_child and (
+                    (here(can_pass_boulder('DMT_MIDDLE_BOULDER')) and ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BROWN) and here(can_blast_or_smash)) or ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BRONZE) and here(can_use(Megaton_Hammer))) or at('Death Mountain Summit', (boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_RED_ICE) and Blue_Fire))
+                    or (logic_boomerang_boulders and Boomerang)))
+                    ",
             "DMT Rock Blue Rupee": "
                 is_child and (can_pass_boulder('DMT_CHILD_LOWER_BOULDER') or (logic_boomerang_boulders and Boomerang))",
             "DMT GS Bean Patch": "
@@ -2438,7 +2439,7 @@
             "Kak Behind Gate": "True",
             "Goron City": "True",
             "Death Mountain Summit": "
-                (here(can_pass_boulder('DMT_MIDDLE_BOULDER')) and ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BROWN) and here(can_blast_or_smash)) or (boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BRONZE) and here(can_use(Megaton_Hammer))) or
+                (here(can_pass_boulder('DMT_MIDDLE_BOULDER')) and ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BROWN) and here(can_blast_or_smash)) or ((boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_BRONZE) and here(can_use(Megaton_Hammer))) or at('Death Mountain Summit', (boulder_type('DMT_UPPER_BOULDER') == BOULDER_TYPE_RED_ICE) and Blue_Fire)) or
                 (is_adult and here(can_plant_bean and ('Death Mountain Trail' in bean_locations or Progressive_Strength_Upgrade))) or
                 (logic_dmt_climb_hovers and can_use(Hover_Boots))",
             "Dodongos Cavern Beginning": "
@@ -2521,8 +2522,6 @@
             "GC Upper Staircase Pot 2": "True",
             "GC Upper Staircase Pot 3": "True",
             "GC Medigoron Pot": "can_blast_or_smash or Progressive_Strength_Upgrade",
-            "GC Boulder Maze Crate": "(can_blast_or_smash or can_use(Silver_Gauntlets)) and can_break_crate",
-            "GC GS Boulder Maze": "is_child and has_explosives",
             "GC GS Center Platform": "is_adult",
             "GC Maze Gossip Stone Drop": "can_play(Song_of_Time) and (can_blast_or_smash or can_use(Silver_Gauntlets))",
             "GC Maze Gossip Stone": "can_blast_or_smash or can_use(Silver_Gauntlets)",
@@ -2710,7 +2709,9 @@
         "hint": "GORON_CITY",
         "locations": {
             "GC Maze Center Chest": "True",
-            "GC Maze Right Chest": "True"
+            "GC Maze Right Chest": "True",
+            "GC Boulder Maze Crate": "can_break_crate",
+            "GC GS Boulder Maze": "is_child"
         },
         "exits": {
             "GC Boulder Maze Left Chest": "
@@ -2937,7 +2938,7 @@
                 is_adult and (Hover_Boots or Hookshot or here(can_plant_bean) or 'Death Mountain Crater' in bean_locations)",
             "DMC Upper Nearby": "is_adult and (here(can_plant_bean) or 'Death Mountain Crater' in bean_locations)",
             "DMC Fire Temple Entrance": "
-                (is_child and (shuffle_dungeon_entrances or (can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_1') or can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_2') or can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_3')))) or
+                (is_child and ((shuffle_dungeon_entrances and not shuffle_boulders) or (can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_1') or can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_2') or can_pass_boulder('DMC_CHILD_FIRE_TEMPLE_BOULDER_3')))) or
                 (is_adult and (logic_fewer_tunic_requirements or Goron_Tunic))",
             "DMC Pierre Platform": "can_use(Distant_Scarecrow)"
         }
@@ -3198,12 +3199,7 @@
             "ZF Adult Octorok 2": "is_adult and can_kill_octorok_with_explosives",
             "ZF Adult Octorok 3": "is_adult and can_kill_octorok_with_explosives",
             "ZF Adult Octorok 4": "is_adult and can_kill_octorok_with_explosives",
-            "ZF Adult Tektite": "is_adult and can_kill_tektite",
-            "ZF Adult Hidden Cave Skulltula 1": "(has_soul(Skulltula)) and (can_use(Silver_Gauntlets) and can_blast_or_smash)",
-            "ZF Adult Hidden Cave Skulltula 2": "(has_soul(Skulltula)) and (can_use(Silver_Gauntlets) and can_blast_or_smash)",
-            "ZF Adult Hidden Cave Skulltula 3": "(has_soul(Skulltula)) and (can_use(Silver_Gauntlets) and can_blast_or_smash)",
-            "ZF Adult Hidden Cave Skulltula 4": "(has_soul(Skulltula)) and (can_use(Silver_Gauntlets) and can_blast_or_smash)",
-            "ZF Adult Hidden Cave Skulltula 5": "(has_soul(Skulltula)) and (can_use(Silver_Gauntlets) and can_blast_or_smash)"
+            "ZF Adult Tektite": "is_adult and can_kill_tektite"
         },
         "exits": {
             "ZD Behind King Zora": "True",
@@ -3211,7 +3207,7 @@
             "ZF Ice Ledge": "is_adult",
             "ZF Great Fairy Fountain": "has_explosives",
             "ZF Underwater": "is_adult and Iron_Boots and (logic_fewer_tunic_requirements or Zora_Tunic)",
-            "ZF Hidden Cave": "can_use(Silver_Gauntlets) and can_blast_or_smash"
+            "ZF Hidden Cave": "can_pass_boulder('ZF_SECRET_SILVER_BOULDER') and can_pass_boulder('ZF_SECRET_BROWN_BOULDER')"
         }
     },
     {
@@ -3248,6 +3244,11 @@
             "ZF Hidden Cave Pot 1": "True",
             "ZF Hidden Cave Pot 2": "True",
             "ZF Hidden Cave Pot 3": "True",
+            "ZF Adult Hidden Cave Skulltula 1": "has_soul(Skulltula)",
+            "ZF Adult Hidden Cave Skulltula 2": "has_soul(Skulltula)",
+            "ZF Adult Hidden Cave Skulltula 3": "has_soul(Skulltula)",
+            "ZF Adult Hidden Cave Skulltula 4": "has_soul(Skulltula)",
+            "ZF Adult Hidden Cave Skulltula 5": "has_soul(Skulltula)",
             "ZF GS Hidden Cave": "Hookshot and at_night"
         }
     },

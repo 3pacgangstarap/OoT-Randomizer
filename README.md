@@ -19,6 +19,15 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
 ## Index
 
 * [RealRob's Changelog](#realrob-changelog)
+  * [v89](#v89)
+  * [v88](#v88)
+  * [v87](#v87)
+  * [v86](#v86)
+  * [v85](#v85)
+  * [v84](#v84)
+  * [v83](#v83)
+  * [v82](#v82)
+  * [v81](#v81)
   * [v80](#v80)
   * [v79](#v79)
   * [v78](#v78)
@@ -105,6 +114,37 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
   * [4.0](#40)
 
 ## RealRob Changelog
+### v89
+  * Boulder Shuffle and Soul Shuffle fixes
+
+### v88
+  * Fix a typo
+
+### v87
+  * Various Boulder Shuffle logic fixes
+
+### v86
+  * Fix disabled enemy drop locations giving shuffled items and appearing on minimap tracker
+
+### v85
+  * Fix King Zora boulder flag in boulder shuffle
+
+### v84
+  * Fix dark link in soul shuffle... again
+
+### v83
+  * Fix MQ DC failing to generate
+  * Fix soul shuffle logic for Spirit Temple MQ Central Chamber Wallmaster
+
+### v82
+  * New Enemy Soul Shuffle option: Regional
+  * Add MQ support for Boulder Shuffle
+  * Fix Boulder Shuffle not obeying "All Locations Reacable"
+  * Fix Fishing Shuffle progressive items drawing incorrect model after caught
+
+### v81
+  * Fishing LH Adult Fish 1 missing
+
 ### v80
   * Unfix the KZ unfreeze glitch
 
@@ -465,6 +505,17 @@ issue. You should always Hard Reset to avoid this issue entirely.
 * **Hints**
   * The `Clearer Hints` option now provides clearer hints for the rainbow bridge text on the altar in the Temple of Time.
   * New option in hint distribution `combine_trial_hints` which combines multiple trials hints into one.
+
+#### Bug Fixes
+* Fix the `Silver Rupee Pouches` setting not being hidden when `Silver Rupee Pouches Mode` is set to `Random Puzzles`.
+* Fix an issue in the Co-op hint distribution which caused seed generation failures for some settings.
+* Fix bug which causes `Maps and Compasses Give Information` to fail when logic is set to `Glitched`.
+* Put a band-aid on a softlock which occurs when collecting a shuffled silver rupee on the ladder in the Bottom of the Well by disallowing silver rupees on this location.
+* You can no longer wear bunny hood while turning adult, then save and reset before leaving the temple of time to keep bunny hood as adult.
+* If the GUI fails to load Python, it will now display an error message instead of appearing to load forever.
+
+#### Other Changes
+* Removing small keys for a dungeon with key rings and `Key Rings give Boss Keys` enabled will now open the boss door instead of giving the player the boss key.
 
 ### 8.0
 

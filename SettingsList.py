@@ -1547,7 +1547,7 @@ class SettingInfos:
         disable        = {
             'off':    {'settings' : ['silver_rupee_pouches']},
             'all':    {'settings' : ['silver_rupee_pouches']},
-            'random': {'settings' : ['silver_rupee_pouches']},  
+            'random': {'settings' : ['silver_rupee_pouches']},
         },
         gui_params     = {
             'hide_when_disabled': True,
@@ -2995,7 +2995,8 @@ class SettingInfos:
         choices        = {
             'off': 'Off',
             'all': 'All',
-            'bosses': 'Bosses'
+            'bosses': 'Bosses',
+            'regional': 'Regional'
         },
         shared         = True,
         gui_params     = {
@@ -3873,9 +3874,7 @@ class SettingInfos:
         gui_text      = 'Allow dogs anywhere',
         gui_tooltip   = '''\
             Allow dogs to follow link through all loading zones.
-            This has no actual impact to the game,
-            but you can bring Richard to the Ganon fight
-            if you so choose.
+            Did you know that Ganondorf is deathly allergic?
         ''',
         shared        = True,
         gui_params     = {

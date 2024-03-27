@@ -27,7 +27,6 @@ from State import State
 from Utils import data_path, read_logic_file
 from Boulders import BOULDER_TYPE
 
-
 class World:
     def __init__(self, world_id: int, settings: Settings, resolve_randomized_settings: bool = True) -> None:
         self.id: int = world_id
@@ -526,7 +525,7 @@ class World:
         elif self.settings.dungeon_shortcuts_choice == 'all':
             self.settings.dungeon_shortcuts = dungeons
 
-        # Determine area with keyring
+        # Determine areas with keyrings
         areas = ['Thieves Hideout', 'Treasure Chest Game', 'Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple', 'Bottom of the Well', 'Gerudo Training Ground', 'Ganons Castle']
         if self.settings.key_rings_choice == 'random':
             self.settings.key_rings = random.sample(areas, random.randint(0, len(areas)))
@@ -674,6 +673,8 @@ class World:
         savewarps_to_connect = []
 
         for region in region_json:
+            if 'scene' not in region and 'dungeon' not in region:
+                print(region['region_name'])
             new_region = Region(self, region['region_name'])
             if 'scene' in region:
                 new_region.scene = region['scene']
@@ -1269,6 +1270,25 @@ class World:
         region = self.get_region(region_name)
         dungeon_name = HintArea.at(region).dungeon_name
         return dungeon_name in self.settings.dungeon_shortcuts
+
+    # Returns whether the given dungeon has a keyring.
+    def keyring(self, dungeon_name: str) -> bool:
+        if dungeon_name in ('Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple', 'Bottom of the Well', 'Gerudo Training Ground', 'Ganons Castle'):
+            return dungeon_name in self.settings.key_rings and self.settings.shuffle_smallkeys != 'vanilla'
+        elif dungeon_name == 'Thieves Hideout':
+            return dungeon_name in self.settings.key_rings and self.settings.gerudo_fortress != 'fast' and self.settings.shuffle_hideoutkeys != 'vanilla'
+        elif dungeon_name == 'Treasure Chest Game':
+            return dungeon_name in self.settings.key_rings and self.settings.shuffle_tcgkeys != 'vanilla'
+        else:
+            raise ValueError(f'Attempted to check keyring for unknown dungeon {dungeon_name!r}')
+
+    # Returns whether the given dungeon has a keyring that includes the boss key.
+    def keyring_give_bk(self, dungeon_name: str) -> bool:
+        return (
+            dungeon_name in ('Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple')
+            and self.settings.keyring_give_bk
+            and self.keyring(dungeon_name)
+        )
 
     # Function to run exactly once after placing items in drop locations for each world
     # Sets all Drop locations to a unique name in order to avoid name issues and to identify locations in the spoiler
