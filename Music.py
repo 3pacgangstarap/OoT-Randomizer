@@ -764,7 +764,7 @@ def randomize_music(rom: Rom, settings: Settings, log: CosmeticsLog, symbols: di
             sequences = {name: seq for name, seq in sequences.items() if name not in bgm_ids or name in music_mapping.values()}
         if available_sequences:
             for sequence_name in available_sequences.get("bgm", []):
-                sequences[sequence_name] = Sequence(sequence_name, sequence_name)
+                sequences[sequence_name] = Sequence(sequence_name, sequence_name, 'bgm')
 
     if settings.fanfares in ['random', 'random_custom_only'] or ff_mapped or ocarina_mapped:
         fanfare_sequences, target_fanfare_sequences, fanfare_groups = process_sequences(rom, ff_ids.values(), 'fanfare', disabled_source_sequences, disabled_target_sequences, custom_sequences_enabled, include_custom_audiobanks=custom_audiobanks_enabled, log=log)
@@ -772,7 +772,7 @@ def randomize_music(rom: Rom, settings: Settings, log: CosmeticsLog, symbols: di
             fanfare_sequences = {name: seq for name, seq in fanfare_sequences.items() if name not in ff_ids or name in music_mapping.values()}
         if available_sequences:
             for sequence_name in available_sequences.get("fanfare", []):
-                fanfare_sequences[sequence_name] = Sequence(sequence_name, sequence_name)
+                fanfare_sequences[sequence_name] = Sequence(sequence_name, sequence_name, 'fanfare')
 
     # Handle groups.
     plando_groups = {n: s for n, s in log.src_dict.get('bgm_groups', {}).get('groups', {}).items()}
@@ -853,6 +853,10 @@ def randomize_music(rom: Rom, settings: Settings, log: CosmeticsLog, symbols: di
     if fanfare_sequences and target_fanfare_sequences:
         shuffled_fanfare_sequences = shuffle_music(log, fanfare_sequences, target_fanfare_sequences, music_mapping, "fanfares")
 
+    # Ensure disabled sequences are flagged in cosmetics log
+    for name in disabled_target_sequences:
+        log.bgm[name] = "None"
+
     # If "sequences_available" is in the cosmetic plando, just skip the actual patching portion and leave that to the web patcher
     if available_sequences:
         return
@@ -870,7 +874,6 @@ def disable_music(rom: Rom, log: CosmeticsLog, ids: Iterable[tuple[str, int]]) -
     blank_track = rom.read_bytes(0xB89AE0 + (0 * 0x10), 0x10)
     for bgm in ids:
         rom.write_bytes(0xB89AE0 + (bgm[1] * 0x10), blank_track)
-        log.bgm[bgm[0]] = "None"
 
 
 def restore_music(rom: Rom) -> None:

@@ -131,6 +131,7 @@ RANDO_CONTEXT:
 .include "camera_init.asm"
 .include "chest_game.asm"
 .include "en_item00.asm"
+.include "volvagia.asm"
 .include "armos.asm"
 .include "ocarina_buttons.asm"
 .include "fairy_ocarina.asm"
@@ -139,17 +140,10 @@ RANDO_CONTEXT:
 .include "minimap.asm"
 .include "collider_override.asm"
 .include "objects.asm"
-
+.include "player.asm"
 
 .align 0x10
 .importobj "../build/bundle.o"
-.align 8
-FONT_TEXTURE:
-.incbin("../resources/font.bin")
-DPAD_TEXTURE:
-.incbin("../resources/dpad.bin")
-TRIFORCE_ICON_TEXTURE:
-.incbin("../resources/triforce_sprite.bin")
 
 .align 0x10
 

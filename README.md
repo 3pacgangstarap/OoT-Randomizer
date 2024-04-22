@@ -19,6 +19,15 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
 ## Index
 
 * [RealRob's Changelog](#realrob-changelog)
+  * [v98](#v98)
+  * [v97](#v97)
+  * [v96](#v96)
+  * [v95](#v95)
+  * [v94](#v94)
+  * [v93](#v93)
+  * [v92](#v92)
+  * [v91](#v91)
+  * [v90](#v90)
   * [v89](#v89)
   * [v88](#v88)
   * [v87](#v87)
@@ -102,6 +111,7 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
   * [Settings](#settings)
   * [Known Issues](#known-issues)
 * [Changelog](#changelog)
+  * [8.1](#81)
   * [8.0](#80)
   * [7.1](#71)
   * [7.0](#70)
@@ -114,6 +124,34 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
   * [4.0](#40)
 
 ## RealRob Changelog
+### v98
+  * Fix crash when pressing dpad down on equipment screen
+
+### v97
+  * Fix KZ crash - wasn't my fault this time :)
+
+### v96
+  * Add dampe all night setting
+
+### v95
+  * Fix masks rendering when in first person view
+
+### v94
+  * Bunny hood dpad fixes
+
+### v93
+  * Update to main Dev 8.1.13
+  * Add Adult Bunny Hood setting
+
+### v92
+  * Fix King Dobonko
+
+### v91
+  * Hopefully fix website custom music patching
+
+### v90
+  * Fix broken MQ Deku logic files
+
 ### v89
   * Boulder Shuffle and Soul Shuffle fixes
 
@@ -414,8 +452,13 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
 
 ## Installation
 
-To run this program, clone this repository and either run ```Gui.py``` for a graphical interface or ```OoTRandomizer.py``` for the command line version. They both require Python 3.8+.
-To use the GUI, [NodeJS](https://nodejs.org/download/release/v18.12.1/) (v18 LTS, with npm) will additionally need to be installed. NodeJS v14.14.0 and earlier are no longer supported.
+It is strongly suggested users use the web generator from here:
+
+https://ootrandomizer.com
+
+If you wish to run the script raw, clone this repository and either run ```Gui.py``` for a
+graphical interface or ```OoTRandomizer.py``` for the command line version. They both require Python 3.8+.
+To use the GUI, [NodeJS](https://nodejs.org/download/release/v20.11.1/) (v20 LTS, with npm) will additionally need to be installed. NodeJS v14.14.0 and earlier are no longer supported.
 The first time ```Gui.py``` is run it will need to install necessary components, which could take a few minutes. Subsequent instances will run much quicker.
 Supported output formats are .z64 (N64/Emulator), .wad (Wii VC, channel IDs NICE/NRKE recommended), Uncompressed ROM (for developmental purposes, offline build only)
 and .zpf/.zpfz (patch files, for sharing seeds with others).
@@ -499,6 +542,26 @@ issue. You should always Hard Reset to avoid this issue entirely.
 ### Dev
 
 #### New Features
+* New cosmetic option `Input Viewer` for showing control stick values and pressed buttons at the bottom of the screen.
+* A text box has been added when completing the adult shooting gallery without a bow to warn the player that they haven't received the real reward.
+* Settings presets can have aliases. Command-line users may use an alias instead of the name to specify the preset.
+* The plando-only `item_hints` setting can now include special items such as songs or keys.
+
+#### Bug Fixes
+* Goal hints can now hint items required to defeat Ganon even if they're not required for the rainbow bridge, Ganon's boss key, or the trials. These items will be hinted as being on the "path of the hero".
+* Fix a softlock present in the original game when damaging Volvagia's second hitbox during the death cutscene.
+* Don't start the trade sequence timer if getting the `ZD King Zora Thawed` item while the Eyeball Frog is in the inventory.
+* Fix missing visual frost effect for ice traps in most chests.
+* Fix the items on the right side of the mask shop being available without paying for all borrowed masks first.
+* The Stone of Agony can now be foolish in Glitched Logic and No Logic, as it already was with the `Hidden Grottos without Stone of Agony` trick enabled.
+* Fix seeds with Plentiful item pool and no adult trade items selected failing to generate.
+
+#### Other Changes
+* Clarified the error message shown when an unshuffled trade quest item is used as a starting item.
+
+### 8.1
+
+#### New Features
 * **Settings**
   * `Minor Items in Big/Gold chests` has been converted into a multiselect so you may granularly make bombchus, shields, or stick/nut capacity appear in big chests.
   * New shuffle `Shuffle Wonderitems` which allows shuffling items the game refers to as Wonderitems. These items are obtained through a few ways: invisible items which drop when Link touches them (such as the rupees above the Hyrule Castle Town drawbridge), interactable switches (such as the torches on Hyrule Castle which drop items when shot with the slingshot), free multitag which gives an item when a certain set of points are touched (the stepping stones in Kokiri Forest), and ordered multitag where a set of points must be touched in a particular order (the grass stepping stones in Kokiri Forest). Wonderitems will indicate their prescence with sparkles color-coded to the type of wonderitem.
@@ -513,6 +576,7 @@ issue. You should always Hard Reset to avoid this issue entirely.
 * Put a band-aid on a softlock which occurs when collecting a shuffled silver rupee on the ladder in the Bottom of the Well by disallowing silver rupees on this location.
 * You can no longer wear bunny hood while turning adult, then save and reset before leaving the temple of time to keep bunny hood as adult.
 * If the GUI fails to load Python, it will now display an error message instead of appearing to load forever.
+* Fix bug where specifying custom music sequences via cosmetics plando was incompatible with actively disabling sequences.
 
 #### Other Changes
 * Removing small keys for a dungeon with key rings and `Key Rings give Boss Keys` enabled will now open the boss door instead of giving the player the boss key.

@@ -350,9 +350,11 @@
             "no_escape_sequence",
             "no_guard_stealth",
             "skip_some_minigame_phases",
+            "dampe_all_night",
             "useful_cutscenes",
             "fast_chests",
             "fast_bunny_hood",
+            "adult_bunny_hood",
             "auto_equip_masks",
             "chicken_count_random",
             "chicken_count",
@@ -422,7 +424,8 @@
             "dpad_dungeon_menu",
             "correct_model_colors",
             "randomize_all_cosmetics",
-            "uninvert_y_axis_in_first_person_camera"
+            "uninvert_y_axis_in_first_person_camera",
+            "input_viewer"
           ]
         },
         {

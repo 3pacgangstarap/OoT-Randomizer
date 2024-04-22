@@ -1495,14 +1495,6 @@ nop
     jal     item_menu_prevent_empty_equip
     addu    s1, t6, t7
 
-; Prevent empty slots from being equipped
-; Replaces:
-;   lbu     v0, 0x0000 (s1)
-;   addiu   at, r0, 0x0009
-.orga 0xBB7D10 ; In memory: 0x8038F690
-    jal     item_menu_prevent_empty_equip
-    nop
-
 ;==================================================================================================
 ; Song Fixes
 ;==================================================================================================
@@ -3670,13 +3662,6 @@ courtyard_guards_kill:
     jal     stick_as_adult
     nop
 
-; Masks
-; Replaces: sw      t6, 0x0004(v0)
-;           lb      t7, 0x013F(s0)
-.orga 0xBE5D8C
-    jal     masks_as_adult
-    nop
-
 ;==================================================================================================
 ; Carpet Salesman Shop Shuffle
 ;==================================================================================================
@@ -3849,12 +3834,6 @@ courtyard_guards_kill:
     sh      zero, 0x025E(s6) ; Replaces: sh      v1, 0x025E(s6)
 .orga 0xBC780C
     .byte 0x09               ; Replaces: 0x01
-
-;==================================================================================================
-; Prevent Mask de-equip if not on a C-button
-;==================================================================================================
-.orga 0xBCF8CC
-    jal     mask_check_trade_slot   ; sb      zero, 0x014F(t0)
 
 ;===================================================================================================
 ; Randomize Frog Song Purple Rupees
@@ -4241,6 +4220,25 @@ courtyard_guards_kill:
     jal      fairy_ocarina_getitem_override
     nop
 
+;===================================================================================================
+; Adds a textbox for adult shooting gallery if game was played without a bow
+;===================================================================================================
+.orga 0xD36164
+; Replaces sw      t4, 0x01EC(a2)
+;          sw      t1, 0x0118(a2)
+    jal     shooting_gallery_no_bow
+    nop
+
+;===================================================================================================
+; Cancel Volvagia flying form hitbox when her health is already at O
+;===================================================================================================
+; Replaces addiu   a2, $zero, 0x0004
+;          andi    t6, a1, 0x0002
+.orga 0xCEA41C
+    jal     volvagia_flying_hitbox
+    nop
+
+
 ;================================================================
 ; Include hacks in other files to start keeping things organized
 ;================================================================
@@ -4259,3 +4257,5 @@ courtyard_guards_kill:
 .include("hacks/object_fixes.asm")
 .include("hacks/ovl_en_kz.asm")
 .include("hacks/ovl_boss_ganon.asm")
+.include "hacks/player.asm"
+.include "hacks/ovl_kaleido_scope.asm"

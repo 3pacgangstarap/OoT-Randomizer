@@ -20,7 +20,7 @@ from LocationList import business_scrubs
 from Messages import read_messages, find_message_index, update_message_by_id, read_shop_items, update_warp_song_text, \
         write_shop_items, remove_unused_messages, make_player_message, \
         add_item_messages, repack_messages, shuffle_messages, \
-        get_message_by_id, TextCode
+        get_message_by_id, TextCode, new_messages
 from OcarinaSongs import patch_songs
 from MQ import patch_files, File, update_dmadata, insert_space, add_relocations
 from Rom import Rom
@@ -44,7 +44,6 @@ else:
 OverrideEntry: TypeAlias = "tuple[int, int, int, int, int, int]"
 FileEntry: TypeAlias = "tuple[str, int, int]"
 PatchEntry: TypeAlias = "tuple[int, list[int]]"
-
 
 def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     with open(data_path('generated/rom_patch.txt'), 'r') as stream:
@@ -160,6 +159,32 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
                 (0x0C64, [0x06, 0x00, 0x00, 0x00]), # gsDPSetTextureImage(..., silver_rock_tlut)
                 (0x0CB4, [0x06, 0x00, 0x0A, 0xF0]), # gsSPVertex(..., fragments_vertices)
             ]),
+        ('object_bunny_hood', 0x1AF,
+            [
+                ('object_link_child', 0x00FE9A28, 0x00FE9C28), # 0000 : gLinkChildBunnyHoodEyeTex
+                ('object_link_child', 0x00FE9C28, 0x00FEA028), # 0200 : gLinkChildBunnyHoodTex
+                ('object_link_child', 0x00FEA028, 0x00FEA428), # 0600 : gLinkChildBunnyHoodEarTex
+                ('object_link_child', 0x00FEA428, 0x00FEA5B8), # 0A00 : vtx_set_1
+                ('object_link_child', 0x00FEA5B8, 0x00FEA658), # 0B90 : vtx_set_2
+                ('object_link_child', 0x00FEA658, 0x00FEA6A8), # 0C30 : vtx_set_3
+                ('object_link_child', 0x00FEA6A8, 0x00FEA848), # 0C80 : vtx_set_4
+                ('object_link_child', 0x00FEA848, 0x00FEA898), # 0E20 : vtx_set_5
+                ('object_link_child', 0x00FEA898, 0x00FEAA38), # 0E70 : vtx_set_6
+                ('object_link_child', 0x00FEAA38, 0x00FEADC8), # 1010 : gLinkChildBunnyHoodDL
+            ],
+            [
+                (0x1010 + 0x0034, [0x06, 0x00, 0x00, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEyeTex ...)
+                (0x1010 + 0x0094, [0x06, 0x00, 0x0A, 0x00]), # gsSPVertex(vtx_set_1,
+                (0x1010 + 0x0104, [0x06, 0x00, 0x02, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodTex ...)
+                (0x1010 + 0x014C, [0x06, 0x00, 0x0B, 0x90]), # gsSPVertex(vtx_set_2,
+                (0x1010 + 0x018C, [0x06, 0x00, 0x0C, 0x30]), # gsSPVertex(vtx_set_3
+                (0x1010 + 0x01C4, [0x06, 0x00, 0x06, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEarTex ...)
+                (0x1010 + 0x021C, [0x06, 0x00, 0x0C, 0x80]), # gsSPVertex(vtx_set_4
+                (0x1010 + 0x029C, [0x06, 0x00, 0x0E, 0x20]), # gsSPVertex(vtx_set_5
+                (0x1010 + 0x02D4, [0x06, 0x00, 0x06, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEarTex, 
+                (0x1010 + 0x032C, [0x06, 0x00, 0x0E, 0x70]), # gsSPVertex(vtx_set_6
+            ]
+         )
     ]
 
     # Add the new models to the extended object file.
@@ -1739,6 +1764,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
 
     # Load Message and Shop Data
     messages = read_messages(rom)
+    new_messages.clear()
     remove_unused_messages(messages)
     shop_items = read_shop_items(rom, shop_item_file.start + 0x1DEC)
 
@@ -2330,7 +2356,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
                 update_message_by_id(messages, 0x6D, "I seem to have misplaced my\x01keys, but I have a fun item to\x01sell instead.\x01How about \x05\x4110 Rupees\x05\x40 for...\x04\x05\x41" + wrapped_item_text + "\x05\x40?\x01\x1B\x05\x42Buy\x01Don't Buy\x05\x40\x02")
             else:
                 update_message_by_id(messages, 0x6D, "I seem to have misplaced my\x01keys, but I have a fun item to\x01sell instead.\x04How about \x05\x4110 Rupees\x05\x40 for\x01\x05\x41" + item_text + "\x05\x40?\x01\x1B\x05\x42Buy\x01Don't Buy\x05\x40\x02")
-        update_message_by_id(messages, 0x908B, "That's OK!\x01More fun for me.\x0B\x02", 0x00)
+        update_message_by_id(messages, 0x908B, "That's OK!\x01More fun for me.\x0B\x02", 0x00, allow_duplicates=True)
         update_message_by_id(messages, 0x6E, "Wait, that room was off limits!\x02")
         update_message_by_id(messages, 0x704C, "I hope you like it!\x02")
 
@@ -2497,7 +2523,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
                     map_message = "\x13\x76\x08You found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x01It\'s %s!\x09" % (dungeon_name, "masterful" if world.dungeon_mq[dungeon] else "ordinary")
 
                 if world.settings.mq_dungeons_mode == 'random' or world.settings.mq_dungeons_count != 0 and world.settings.mq_dungeons_count != 12:
-                    update_message_by_id(messages, map_id, map_message)
+                    update_message_by_id(messages, map_id, map_message, allow_duplicates=True)
             else:
                 dungeon_name, boss_name, compass_id, map_id = dungeon_list[dungeon]
                 if world.settings.world_count > 1:
@@ -2515,13 +2541,13 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
                         boss_location = next(filter(lambda loc: loc.type == 'Boss', world.get_entrance(f'{dungeon} Before Boss -> {boss_name} Boss Room').connected_region.locations))
                     dungeon_reward = reward_list[boss_location.item.name]
                     compass_message = "\x13\x75\x08You found the \x05\x41Compass\x05\x40\x01for %s\x05\x40!\x01It holds the %s!\x09" % (dungeon_name, dungeon_reward)
-                update_message_by_id(messages, compass_id, compass_message)
+                update_message_by_id(messages, compass_id, compass_message, allow_duplicates=True)
                 if world.settings.mq_dungeons_mode == 'random' or world.settings.mq_dungeons_count != 0 and world.settings.mq_dungeons_count != 12:
                     if world.settings.world_count > 1:
                         map_message = "\x13\x76\x08\x05\x42\x0F\x05\x40 found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x09" % dungeon_name
                     else:
                         map_message = "\x13\x76\x08You found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x01It\'s %s!\x09" % (dungeon_name, "masterful" if world.dungeon_mq[dungeon] else "ordinary")
-                    update_message_by_id(messages, map_id, map_message)
+                    update_message_by_id(messages, map_id, map_message, allow_duplicates=True)
 
     # Set hints on the altar inside ToT
     rom.write_int16(0xE2ADB2, 0x707A)
@@ -2532,7 +2558,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
 
     if world.settings.tokensanity == 'off':
         # Change the GS token pickup message to fade out after 2 seconds (40 frames)
-        update_message_by_id(messages, 0x00B4, bytearray(get_message_by_id(messages, 0x00B4).raw_text)[:-1] + b'\x0E\x28')
+        update_message_by_id(messages, 0x00B4, bytearray(get_message_by_id(messages, 0x00B4).raw_text)[:-1] + b'\x0E\x28', allow_duplicates=True)
         # Prevent the GS token actor from freezing the player and waiting for the textbox to be closed 
         rom.write_int32s(0xEC68C0, [0x00000000, 0x00000000])
         rom.write_int32s(0xEC69B0, [0x00000000, 0x00000000])
@@ -2599,7 +2625,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
         bfa_message = "\x08\x13\x0CYou got the \x05\x43Blue Fire Arrow\x05\x40!\x01This is a cool arrow you can\x01use on red ice."
         if world.settings.world_count > 1:
             bfa_message = make_player_message(bfa_message)
-        update_message_by_id(messages, 0x0071, bfa_message, 0x23)
+        update_message_by_id(messages, 0x0071, bfa_message, 0x23, allow_duplicates=True)
 
         with open(data_path('blue_fire_arrow_item_name_eng.ia4'), 'rb') as stream:
             bfa_name_bytes = stream.read()
@@ -2626,6 +2652,8 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     if world.settings.fast_bunny_hood:
         symbol = rom.sym('FAST_BUNNY_HOOD_ENABLED')
         rom.write_byte(symbol, 0x01)
+    if world.settings.adult_bunny_hood:
+        rom.write_byte(rom.sym('ADULT_BUNNY_HOOD'), 0x01)
 
     # Automatically re-equip the current mask on scene change
     if world.settings.auto_equip_masks:
@@ -2686,6 +2714,13 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     # Have the Gold Skulltula Count in the pause menu turn red when equal to the
     # available number of skulls in the world instead of 100.
     rom.write_int16(0xBB340E, world.available_tokens)
+
+    # Dampe all night
+    # Just nop the time of day checks in EnTk_Init
+    # He doesn't spawn during the day because he's not in the actor or object list
+    # Fix that eventually with the new object system :)
+    if world.settings.dampe_all_night:
+        rom.write_bytes(0xCC3B70, [0x00] * 4 * 4 )
 
     patch_songs(world, rom)
 

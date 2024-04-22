@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
 class SettingInfos:
     # Internal & Non-GUI Settings
+    aliases = SettingInfoList(None, None, False)
     cosmetics_only = Checkbutton(None)
     check_version = Checkbutton(None)
     checked_version = SettingInfoStr(None, None)
@@ -3244,6 +3245,16 @@ class SettingInfos:
         shared         = True,
     )
 
+    dampe_all_night = Checkbutton(
+        gui_text      = 'Dampe All Night',
+        gui_tooltip   = '''\
+            As child, normally Dampe will only spawn at certain hours
+            of the night for the Grave Digging Tour.
+            Enabling this forces him to spawn at any
+            time of the night.
+        '''
+    )
+
     complete_mask_quest = Combobox(
         gui_text       = 'Mask Quest',
         default        = 'off',
@@ -3302,6 +3313,26 @@ class SettingInfos:
             in Majora's Mask and makes you go 1.5× faster.
         ''',
         shared         = True,
+        disable        = {
+            False: {'settings' : ['adult_bunny_hood']},
+        },
+    )
+
+    adult_bunny_hood = Checkbutton(
+        gui_text       = 'Adult Bunny Hood',
+        gui_tooltip    = '''\
+            The Bunny Hood can be worn as adult.
+            It can be equipped to C buttons
+            and can be accessed via the D-pad.
+
+            If you have found both Ocarina and
+            Bunny Hood, hold down Z to access
+            the Bunny Hood on the D-pad.
+        ''',
+        shared         = True,
+        gui_params     = {
+            "hide_when_disabled": True
+        },
     )
 
     auto_equip_masks = Checkbutton(
@@ -3662,7 +3693,7 @@ class SettingInfos:
         gui_type       = None,
         gui_text       = None,
         shared         = True,
-        choices        = [name for name, item in ItemInfo.items.items() if item.type == 'Item']
+        choices        = [name for name, item in ItemInfo.items.items() if item.type not in ('Drop', 'Event', 'Refill', 'Shop')]
     )
 
     hint_dist_user = SettingInfoDict(None, None, True, {})
@@ -4171,6 +4202,16 @@ class SettingInfos:
             Uninvert the Y axis in first person camera.
             Note that this can make some tricks or glitches
             harder to pull off.
+        ''',
+        default        = False,
+    )
+
+    input_viewer = Checkbutton(
+        gui_text       = 'Input Viewer',
+        shared         = False,
+        cosmetic       = True,
+        gui_tooltip    = '''\
+            Show the controller inputs in form of icons at the bottom of the screen.
         ''',
         default        = False,
     )
@@ -5494,6 +5535,8 @@ def validate_settings(settings_dict: dict[str, Any], *, check_conflicts: bool = 
             raise TypeError('Supplied choice %r for setting %r is of type %r, expecting %r' % (choice, setting, type(choice).__name__, info.type.__name__))
         # If setting is a list, must check each element
         if isinstance(choice, list):
+            if not info.choice_list:
+                continue
             for element in choice:
                 if element not in info.choice_list:
                     raise ValueError('%r is not a valid choice for setting %r. %s' % (element, setting, build_close_match(element, 'choice', info.choice_list)))

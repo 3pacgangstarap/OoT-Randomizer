@@ -7,7 +7,7 @@
 COSMETIC_CONTEXT:
 
 COSMETIC_FORMAT_VERSION:
-.word 0x1F073FE0
+.word 0x1F073FE1
 CFG_MAGIC_COLOR:
 .halfword 0x0000, 0x00C8, 0x0000
 CFG_HEART_COLOR:
@@ -87,6 +87,8 @@ CFG_UNINVERT_YAXIS_IN_FIRST_PERSON_CAMERA:
 CFG_DPAD_ON_THE_LEFT:
 .byte 0x00
 
+CFG_INPUT_VIEWER:
+.byte 0x00
 CFG_SHOW_SETTING_INFO:
 .byte 0x00
 
@@ -133,7 +135,7 @@ INITIAL_SAVE_DATA:
 EXTENDED_INITIAL_SAVE_DATA:
 .endarea
 
-.area 0x100, 0 ; size must be at least 8 * ((max object_id parameter Patches.add_to_extended_object_table is called with) - 0x192)
+.area 0x200, 0 ; size must be at least 8 * ((max object_id parameter Patches.add_to_extended_object_table is called with) - 0x192)
 EXTENDED_OBJECT_TABLE:
 .endarea
 
@@ -206,6 +208,8 @@ CFG_MINIMAP_ENEMY_TRACKER:
 SHUFFLE_FISHIES:
 .byte 0x00
 CFG_BOULDER_SHUFFLE:
+.byte 0x00
+ADULT_BUNNY_HOOD:
 .byte 0x00
 .align 4
 
