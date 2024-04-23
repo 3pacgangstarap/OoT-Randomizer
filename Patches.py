@@ -45,7 +45,6 @@ OverrideEntry: TypeAlias = "tuple[int, int, int, int, int, int]"
 FileEntry: TypeAlias = "tuple[str, int, int]"
 PatchEntry: TypeAlias = "tuple[int, list[int]]"
 
-
 def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     with open(data_path('generated/rom_patch.txt'), 'r') as stream:
         for line in stream:
@@ -160,6 +159,32 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
                 (0x0C64, [0x06, 0x00, 0x00, 0x00]), # gsDPSetTextureImage(..., silver_rock_tlut)
                 (0x0CB4, [0x06, 0x00, 0x0A, 0xF0]), # gsSPVertex(..., fragments_vertices)
             ]),
+        ('object_bunny_hood', 0x1AF,
+            [
+                ('object_link_child', 0x00FE9A28, 0x00FE9C28), # 0000 : gLinkChildBunnyHoodEyeTex
+                ('object_link_child', 0x00FE9C28, 0x00FEA028), # 0200 : gLinkChildBunnyHoodTex
+                ('object_link_child', 0x00FEA028, 0x00FEA428), # 0600 : gLinkChildBunnyHoodEarTex
+                ('object_link_child', 0x00FEA428, 0x00FEA5B8), # 0A00 : vtx_set_1
+                ('object_link_child', 0x00FEA5B8, 0x00FEA658), # 0B90 : vtx_set_2
+                ('object_link_child', 0x00FEA658, 0x00FEA6A8), # 0C30 : vtx_set_3
+                ('object_link_child', 0x00FEA6A8, 0x00FEA848), # 0C80 : vtx_set_4
+                ('object_link_child', 0x00FEA848, 0x00FEA898), # 0E20 : vtx_set_5
+                ('object_link_child', 0x00FEA898, 0x00FEAA38), # 0E70 : vtx_set_6
+                ('object_link_child', 0x00FEAA38, 0x00FEADC8), # 1010 : gLinkChildBunnyHoodDL
+            ],
+            [
+                (0x1010 + 0x0034, [0x06, 0x00, 0x00, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEyeTex ...)
+                (0x1010 + 0x0094, [0x06, 0x00, 0x0A, 0x00]), # gsSPVertex(vtx_set_1,
+                (0x1010 + 0x0104, [0x06, 0x00, 0x02, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodTex ...)
+                (0x1010 + 0x014C, [0x06, 0x00, 0x0B, 0x90]), # gsSPVertex(vtx_set_2,
+                (0x1010 + 0x018C, [0x06, 0x00, 0x0C, 0x30]), # gsSPVertex(vtx_set_3
+                (0x1010 + 0x01C4, [0x06, 0x00, 0x06, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEarTex ...)
+                (0x1010 + 0x021C, [0x06, 0x00, 0x0C, 0x80]), # gsSPVertex(vtx_set_4
+                (0x1010 + 0x029C, [0x06, 0x00, 0x0E, 0x20]), # gsSPVertex(vtx_set_5
+                (0x1010 + 0x02D4, [0x06, 0x00, 0x06, 0x00]), # gsDPLoadTextureBlock(gLinkChildBunnyHoodEarTex, 
+                (0x1010 + 0x032C, [0x06, 0x00, 0x0E, 0x70]), # gsSPVertex(vtx_set_6
+            ]
+         )
     ]
 
     # Add the new models to the extended object file.
@@ -1283,17 +1308,27 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
 
     set_spirit_shortcut_actors(rom) # Change elevator starting position to avoid waiting a half cycle from the temple entrance
 
-    if world.settings.plant_beans:
-        save_context.write_permanent_flag(Scenes.GRAVEYARD, FlagType.SWITCH, 0x3, 0x08)  # Plant Graveyard bean
-        save_context.write_permanent_flag(Scenes.ZORAS_RIVER, FlagType.SWITCH, 0x3, 0x08)  # Plant Zora's River bean
-        save_context.write_permanent_flag(Scenes.KOKIRI_FOREST, FlagType.SWITCH, 0x2, 0x02)  # Plant Kokiri Forest bean
-        save_context.write_permanent_flag(Scenes.LAKE_HYLIA, FlagType.SWITCH, 0x3, 0x02)  # Plant Lake Hylia bean
-        save_context.write_permanent_flag(Scenes.GERUDO_VALLEY, FlagType.SWITCH, 0x3, 0x08)  # Plant Gerudo Valley bean
-        save_context.write_permanent_flag(Scenes.LOST_WOODS, FlagType.SWITCH, 0x3, 0x10)  # Plant Lost Woods bridge bean
-        save_context.write_permanent_flag(Scenes.LOST_WOODS, FlagType.SWITCH, 0x1, 0x04)  # Plant Lost Woods theater bean
-        save_context.write_permanent_flag(Scenes.DESERT_COLOSSUS, FlagType.SWITCH, 0x0, 0x1)  # Plant Desert Colossus bean
-        save_context.write_permanent_flag(Scenes.DEATH_MOUNTAIN_TRAIL, FlagType.SWITCH, 0x3, 0x40)  # Plant Death Mountain Trail bean
-        save_context.write_permanent_flag(Scenes.DEATH_MOUNTAIN_CRATER, FlagType.SWITCH, 0x3, 0x08)  # Plant Death Mountain Crater bean
+    if world.settings.plant_beans != 'off':
+        if 'Graveyard' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.GRAVEYARD, FlagType.SWITCH, 0x3, 0x08)  # Plant Graveyard bean
+        if 'Zora River' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.ZORAS_RIVER, FlagType.SWITCH, 0x3, 0x08)  # Plant Zora's River bean
+        if 'Kokiri Forest' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.KOKIRI_FOREST, FlagType.SWITCH, 0x2, 0x02)  # Plant Kokiri Forest bean
+        if 'Lake Hylia' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.LAKE_HYLIA, FlagType.SWITCH, 0x3, 0x02)  # Plant Lake Hylia bean
+        if 'Gerudo Valley' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.GERUDO_VALLEY, FlagType.SWITCH, 0x3, 0x08)  # Plant Gerudo Valley bean
+        if 'Lost Woods Near Bridge' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.LOST_WOODS, FlagType.SWITCH, 0x3, 0x10)  # Plant Lost Woods bridge bean
+        if 'Lost Woods Near Grotto' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.LOST_WOODS, FlagType.SWITCH, 0x1, 0x04)  # Plant Lost Woods theater bean
+        if 'Desert Colossus' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.DESERT_COLOSSUS, FlagType.SWITCH, 0x0, 0x1)  # Plant Desert Colossus bean
+        if 'Death Mountain Trail' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.DEATH_MOUNTAIN_TRAIL, FlagType.SWITCH, 0x3, 0x40)  # Plant Death Mountain Trail bean
+        if 'Death Mountain Crater' in world.settings.bean_locations:
+            save_context.write_permanent_flag(Scenes.DEATH_MOUNTAIN_CRATER, FlagType.SWITCH, 0x3, 0x08)  # Plant Death Mountain Crater bean
 
     save_context.write_bits(0x00D4 + 0x05 * 0x1C + 0x04 + 0x1, 0x01) # Water temple switch flag (Ruto)
     save_context.write_bits(0x00D4 + 0x51 * 0x1C + 0x04 + 0x2, 0x08) # Hyrule Field switch flag (Owl)
@@ -1427,7 +1462,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
             return traded_flags
         save_context.write_permanent_flags(Scenes.GORON_CITY, FlagType.UNK00, calculate_traded_flags(world))
 
-    if world.settings.complete_mask_quest:
+    if world.settings.complete_mask_quest == 'on':
         rom.write_byte(rom.sym('COMPLETE_MASK_QUEST'), 1)
 
     if world.skip_child_zelda:
@@ -1441,7 +1476,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     if world.skip_child_zelda or "Zeldas Letter" in world.distribution.starting_items.keys():
         if world.settings.open_kakariko != 'closed':
             save_context.write_bits(0x0F07, 0x40)  # "Spoke to Gate Guard About Mask Shop"
-        if world.settings.complete_mask_quest:
+        if world.settings.complete_mask_quest == 'on':
             save_context.write_bits(0x0F07, 0x80)  # "Soldier Wears Keaton Mask"
             save_context.write_bits(0x0EF6, 0x8F)  # "Sold Masks & Unlocked Masks" / "Obtained Mask of Truth"
             save_context.write_bits(0x0EE4, 0xF0)  # "Paid Back Mask Fees"
@@ -1478,7 +1513,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
         rom.write_int32(symbol, 6)
         rom.write_int16(count_symbol, world.settings.bridge_hearts * 0x10)
 
-    if world.settings.triforce_hunt:
+    if world.settings.triforce_hunt == 'on':
         rom.write_int16(rom.sym('TRIFORCE_PIECES_REQUIRED'), world.triforce_goal)
         rom.write_int16(rom.sym('TRIFORCE_HUNT_ENABLED'), 1)
 
@@ -1632,7 +1667,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     rom.write_byte(0xAE587B, 0x14)  # >= ITEM_BOTTLE
 
     # Revert change that Skips the Epona Race
-    if not world.settings.no_epona_race:
+    if world.settings.no_epona_race == 'off':
         rom.write_int32(0xA9E838, 0x03E00008)
     else:
         save_context.write_bits(0xF0E, 0x01)  # Set talked to Malon flag
@@ -2601,7 +2636,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     # update warp song preview text boxes
     update_warp_song_text(messages, world)
 
-    if world.settings.blue_fire_arrows:
+    if world.settings.blue_fire_arrows == 'on':
         rom.write_byte(0xC230C1, 0x29)  # Adds AT_TYPE_OTHER to arrows to allow collision with red ice
         rom.write_byte(0xDB38FE, 0xEF)  # disables ice arrow collision on secondary cylinder for red ice crystals
         rom.write_byte(0xC9F036, 0x10) # enable ice arrow collision on mud walls
@@ -2628,7 +2663,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     #        f.write("\t0x%04X: \"%s\",\n" % (m.id, m.get_python_string()))
     #     f.write('}\n')
 
-    if world.settings.free_scarecrow:
+    if world.settings.free_scarecrow == 'on':
         # Played song as adult
         save_context.write_bits(0x0EE6, 0x10)
         # Direct scarecrow behavior
@@ -2639,6 +2674,8 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     if world.settings.fast_bunny_hood:
         symbol = rom.sym('FAST_BUNNY_HOOD_ENABLED')
         rom.write_byte(symbol, 0x01)
+    if world.settings.adult_bunny_hood:
+        rom.write_byte(rom.sym('ADULT_BUNNY_HOOD'), 0x01)
 
     # Automatically re-equip the current mask on scene change
     if world.settings.auto_equip_masks:
@@ -2699,6 +2736,13 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
     # Have the Gold Skulltula Count in the pause menu turn red when equal to the
     # available number of skulls in the world instead of 100.
     rom.write_int16(0xBB340E, world.available_tokens)
+
+    # Dampe all night
+    # Just nop the time of day checks in EnTk_Init
+    # He doesn't spawn during the day because he's not in the actor or object list
+    # Fix that eventually with the new object system :)
+    if world.settings.dampe_all_night:
+        rom.write_bytes(0xCC3B70, [0x00] * 4 * 4 )
 
     patch_songs(world, rom)
 
@@ -3273,7 +3317,7 @@ def place_shop_items(rom: Rom, world: World, shop_items, messages, locations, in
             # Without complete mask quest, trading all masks will automatically
             # give it and set this as sold out.
             # With complete mask quest, it's free to take normally
-            if (not world.settings.complete_mask_quest and
+            if (world.settings.complete_mask_quest == 'off' and
               ((location.vanilla_item == 'Mask of Truth' and 'Mask of Truth' in world.settings.shuffle_child_trade) or
                ('mask_shop' in world.settings.misc_hints and location.vanilla_item == 'Goron Mask' and 'Goron Mask' in world.settings.shuffle_child_trade) or
                ('mask_shop' in world.settings.misc_hints and location.vanilla_item == 'Zora Mask' and 'Zora Mask' in world.settings.shuffle_child_trade) or
