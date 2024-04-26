@@ -3049,6 +3049,7 @@ class SettingInfos:
         default        = 'off',
         choices        = {
             'off':     'Off',
+			'vanilla': 'Vanilla Behavior'
             'easy':    'Easier Behavior',
         },
         shared         = True,
@@ -3056,7 +3057,6 @@ class SettingInfos:
             'randomize_key': 'randomize_settings',
             'distribution': [
                 ('off',          1),
-                ('vanilla',      1),
                 ('easy',         1),
             ],
         },
