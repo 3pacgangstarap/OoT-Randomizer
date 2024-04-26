@@ -3049,7 +3049,7 @@ class SettingInfos:
         default        = 'off',
         choices        = {
             'off':     'Off',
-			'vanilla': 'Vanilla Behavior'
+            'vanilla': 'Vanilla Behavior',
             'easy':    'Easier Behavior',
         },
         shared         = True,
