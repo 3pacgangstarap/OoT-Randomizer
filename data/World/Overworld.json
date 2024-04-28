@@ -1384,7 +1384,7 @@
         "hint": "DESERT_COLOSSUS",
         "time_passes": true,
         "locations": {
-            "Colossus Freestanding PoH": "is_adult and here(can_plant_bean) or 'Desert Colossus' in bean_locations",
+            "Colossus Freestanding PoH": "is_adult and (here(can_plant_bean) or 'Desert Colossus' in bean_locations)",
             "Colossus Tree Wonderitem 1": "can_use(Slingshot) or can_use(Bow)",
             "Colossus Tree Wonderitem 2": "can_use(Slingshot) or can_use(Bow)",
             "Colossus Tree Wonderitem 3 Child": "can_use(Slingshot)",
