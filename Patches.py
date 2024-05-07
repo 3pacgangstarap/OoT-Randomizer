@@ -1513,7 +1513,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
 
     # Set Boss Key collection in Key Ring.
     symbol = rom.sym('KEYRING_BOSSKEY_CONDITION')
-    if world.settings.keyring_give_bk:
+    if world.settings.keyrings_give_bk:
         rom.write_byte(symbol, 1)
 
     # Set up LACS conditions.

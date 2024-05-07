@@ -1287,7 +1287,7 @@ class World:
     def keyring_give_bk(self, dungeon_name: str) -> bool:
         return (
             dungeon_name in ('Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple')
-            and self.settings.keyring_give_bk
+            and self.settings.keyrings_give_bk
             and self.keyring(dungeon_name)
         )
 

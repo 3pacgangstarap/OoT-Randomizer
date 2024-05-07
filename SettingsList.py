@@ -600,7 +600,7 @@ class SettingInfos:
                     'shuffle_overworld_entrances', 'mix_entrance_pools', 'decouple_entrances',
                     'shuffle_gerudo_valley_river_exit', 'owl_drops', 'warp_songs', 'spawn_positions',
                     'shuffle_boulders', 'shuffle_mapcompass', 'shuffle_smallkeys', 'shuffle_hideoutkeys',
-                    'shuffle_tcgkeys', 'key_rings_choice', 'key_rings', 'keyring_give_bk', 'shuffle_bosskeys',
+                    'shuffle_tcgkeys', 'key_rings_choice', 'key_rings', 'keyrings_give_bk', 'shuffle_bosskeys',
                     'shuffle_silver_rupees', 'silver_rupee_pouches_choice', 'silver_rupee_pouches',
                     'enhance_map_compass',
                 ],
@@ -1416,7 +1416,7 @@ class SettingInfos:
         ''',
         shared         = True,
         disable={
-            'off':    {'settings': ['key_rings', 'keyring_give_bk']},
+            'off':    {'settings': ['key_rings', 'keyrings_give_bk']},
             'all':    {'settings': ['key_rings']},
             'random': {'settings': ['key_rings']},
         },
@@ -1452,7 +1452,7 @@ class SettingInfos:
         shared          = True,
     )
 
-    keyring_give_bk = Checkbutton(
+    keyrings_give_bk = Checkbutton(
         gui_text       = 'Key Rings give Boss Keys',
         gui_tooltip    = '''\
             Boss Keys will be included in the Key Ring for the specific dungeon.
