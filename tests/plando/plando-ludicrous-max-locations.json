@@ -5,7 +5,7 @@
     "open_forest":                             "closed_deku",
     "zora_fountain":                           "closed",
     "gerudo_fortress":                         "normal",
-    "triforce_hunt":                           false,
+    "triforce_hunt":                           "off",
     "complete_mask_quest":                     false,
     "plant_beans":                             false,
     "chicken_count_random":                    false,
