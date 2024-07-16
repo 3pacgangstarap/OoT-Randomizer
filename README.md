@@ -19,6 +19,12 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
 ## Index
 
 * [RealRob's Changelog](#realrob-changelog)
+  * [v107](#v107)
+  * [v106](#v106)
+  * [v105](#v105)
+  * [v104](#v104)
+  * [v103](#v103)
+  * [v102](#v102)
   * [v101](#v101)
   * [v100](#v100)
   * [v99](#v99)
@@ -127,6 +133,29 @@ Fishing Game Shuffle - Shuffle the fish from the fishing game. The fish in the p
   * [4.0](#40)
 
 ## RealRob Changelog
+### v107
+  * Fix DC Upper Lizalfos Region soul logic
+
+### v106
+  * Fix ZF hidden cave logic
+
+### v105
+  * Merge main Dev
+  * Fix duplicate region "Deku Tree Basement Rotating Spike Room"
+
+### v104
+  * Fix missing fish again
+
+### v103
+  * Merge the rest of Potsanity 3.0. Probably just breaking things
+  * Fix GC Gossip Stone logic for boulder shuffle
+  * Fix Deku Baba Sticks/Nut soul shuffle logic
+
+### v102
+  * (Hopefully) Fix generating boss soul shuffle with random settings
+  * Ganons Castle/MQ enemy logic fixes
+  * Water Temple enemy logic fixes
+
 ### v101
   * Reverting Dev merge
 
@@ -553,23 +582,50 @@ issue. You should always Hard Reset to avoid this issue entirely.
 
 ### Dev
 
-#### New Features
+#### New Settings and Options
 * New cosmetic option `Input Viewer` for showing control stick values and pressed buttons at the bottom of the screen.
+* Add new options for chest/pot/etc. textures, including `Stone of Agony Unlocks Chest Textures` which gives new functionality to the Stone of Agony.
+* The name of the currently playing custom music will now be displayed. Can be disabled using a new cosmetic setting.
+* New setting to control how dungeon rewards are shuffled.
+* The `Links Pocket` location is renamed to `ToT Reward from Rauru`, and a new setting has been added that controls whether it is skipped.
+* New option `Specific Rewards` for the `Pre-completed Dungeons Mode` setting, allowing the user to set dungeons to be precompleted depending on which medallion or stone they have. Not compatible with shuffled dungeon rewards.
+* New settings to `Include Empty Pots` and `Include Empty Crates` when pots and crates are shuffled respectively.
+
+#### Other New Features
 * A text box has been added when completing the adult shooting gallery without a bow to warn the player that they haven't received the real reward.
 * Settings presets can have aliases. Command-line users may use an alias instead of the name to specify the preset.
 * The plando-only `item_hints` setting can now include special items such as songs or keys.
+* A boss key icon will now be displayed near the small key icon in dungeons where it has been obtained.
+* Fairy pots are now included in `Shuffle Pots`.
 
 #### Bug Fixes
 * Goal hints can now hint items required to defeat Ganon even if they're not required for the rainbow bridge, Ganon's boss key, or the trials. These items will be hinted as being on the "path of the hero".
 * Fix a softlock present in the original game when damaging Volvagia's second hitbox during the death cutscene.
 * Don't start the trade sequence timer if getting the `ZD King Zora Thawed` item while the Eyeball Frog is in the inventory.
-* Fix missing visual frost effect for ice traps in most chests.
 * Fix the items on the right side of the mask shop being available without paying for all borrowed masks first.
 * The Stone of Agony can now be foolish in Glitched Logic and No Logic, as it already was with the `Hidden Grottos without Stone of Agony` trick enabled.
 * Fix seeds with Plentiful item pool and no adult trade items selected failing to generate.
+* Fix castle courtyard exiting to incorrect area in Ganon's Castle Dungeon ER.
+* Fix heart piece count getting zeroed out incorrectly in certain circumstances.
+* Business scrubs now take their payment before giving the item.
+* The softlock which occurs when collecting a shuffled silver rupee on the ladder in the Bottom of the Well is now fixed by moving the item location so it can't be collected from the ladder instead of disallowing silver rupees on this location.
+* Fix inverted cursor in the pause menu when pausing while in first person with the `Uninvert Y-Axis in First Person Camera` cosmetic setting enabled.
+* Fix some inconsistent tags for wonderitem locations in the `Exclude Locations` list.
+
+#### New Speedups
+* Meg will now take less time before respawning after getting hurt.
+* The cutscenes for stealing Epona by jumping over a fence are now sped up. Previously, only the cutscene for jumping over the front gate was shortened.
+* The cutscenes for pulling and dropping the Master Sword are now sped up.
+* The cutscene changing the water level of the Kakariko well is now even faster.
+* The cutscenes playing when a blue warp is taken for the first time have been removed.
 
 #### Other Changes
 * Clarified the error message shown when an unshuffled trade quest item is used as a starting item.
+* Locations in pre-completed dungeons will no longer be hinted.
+* Treasure Chest Game key and silver rupee options are now included in `Randomize Main Rule Settings`.
+* Pause menu has been modified so that equip swap will work again.
+* Major items from pots, crates, etc now display above Link's head while the text box is open.
+* Gameplay is no longer interrupted if you receive a junk item from another player in multiworld.
 
 ### 8.1
 

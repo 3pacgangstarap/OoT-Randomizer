@@ -13,7 +13,7 @@ void obj_comb_drop_collectible(z64_actor_t* actor, int16_t params) {
     xflag_t* flag = &(Actor_GetAdditionalData(actor)->flag);
 
     if (params >= 0) {
-        if (flag->all && !Get_NewOverrideFlag(flag)) {
+        if (flag->all && !Get_NewFlag(flag)) {
             // set up params for Item_DropCollectible
             drop_collectible_override_flag = *flag;
             EnItem00* spawned = z64_Item_DropCollectible2(&z64_game, &actor->pos_world, params);
@@ -27,7 +27,7 @@ void obj_comb_drop_collectible(z64_actor_t* actor, int16_t params) {
 }
 
 void ObjComb_Update(z64_actor_t* thisx, z64_game_t* game) {
-    ObjComb *this = (ObjComb *)thisx;
+    ObjComb* this = (ObjComb*)thisx;
     if (this->actor.dropFlag > 0) {
         this->actor.dropFlag --;
     }

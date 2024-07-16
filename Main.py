@@ -38,10 +38,10 @@ def main(settings: Settings, max_attempts: int = 10) -> Spoiler:
     start = time.process_time()
 
     rom = resolve_settings(settings)
-
     max_attempts = max(max_attempts, 1)
     spoiler = None
     for attempt in range(1, max_attempts + 1):
+        settings.reset_distribution()
         try:
             spoiler = generate(settings)
             break
@@ -51,7 +51,6 @@ def main(settings: Settings, max_attempts: int = 10) -> Spoiler:
                 raise
             else:
                 logger.info('Retrying...\n\n')
-            settings.reset_distribution()
     if spoiler is None:
         raise RuntimeError("Generation failed.")
     patch_and_output(settings, spoiler, rom)
@@ -156,7 +155,11 @@ def build_world_graphs(settings: Settings) -> list[World]:
         generate_itempool(world)
         set_shop_rules(world)
         world.set_drop_location_names()
-        world.fill_bosses()
+        if world.settings.shuffle_dungeon_rewards in ('vanilla', 'reward'):
+            world.fill_bosses()
+
+        if settings.empty_dungeons_mode == 'rewards':
+            world.set_empty_dungeon_rewards(settings.empty_dungeons_rewards)
 
     if settings.triforce_hunt == 'on':
         settings.distribution.configure_triforce_hunt(worlds)

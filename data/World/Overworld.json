@@ -6,12 +6,12 @@
             "Kakariko Village Gate Open": "open_kakariko == 'open' or (open_kakariko == 'zelda' and Zeldas_Letter)"
         },
         "locations": {
-            "Links Pocket": "True",
             "Gift from Sages": "can_receive_ganon_bosskey"
         },
         "exits": {
             "Root Exits": "is_starting_age or Time_Travel",
-            "HC Garden Locations": "skip_child_zelda"
+            "HC Garden Skippable Locations": "skip_child_zelda",
+            "Beyond Door of Time Skippable Locations": "skip_reward_from_rauru"
         }
     },
     {
@@ -264,8 +264,8 @@
             # placement this is not an issue as Adult can go back to forest for the Baba's there.
             # Entrance rando cannot rely on this for the case forest completion was done on non
             # repeatable access.
-            "Deku Baba Sticks": "(is_adult and not entrance_shuffle) or can_use(Kokiri_Sword) or can_use(Boomerang)",
-            "Deku Baba Nuts": "is_adult and not entrance_shuffle",
+            "Deku Baba Sticks": "has_soul(Deku_Baba) and ((is_adult and not entrance_shuffle) or can_use(Kokiri_Sword) or can_use(Boomerang))",
+            "Deku Baba Nuts": "has_soul(Deku_Baba) and (is_adult and not entrance_shuffle)",
             "KF Deku Tree Gossip Stone (Left) Drop": "can_play(Song_of_Time)",
             "KF Deku Tree Gossip Stone (Left)": "True",
             "KF Deku Tree Gossip Stone (Right) Drop": "can_play(Song_of_Time)",
@@ -489,7 +489,7 @@
         "scene": "Sacred Forest Meadow",
         "hint": "SACRED_FOREST_MEADOW",
         "locations": {
-            "Song from Saria": "is_child and at('HC Garden Locations', is_child)",
+            "Song from Saria": "is_child and at('HC Garden Skippable Locations', is_child)",
             "Sheik in Forest": "is_adult",
             "SFM Maze Wonderitem 1": "True",
             "SFM Maze Wonderitem 2": "True",
@@ -1590,7 +1590,16 @@
             "Master Sword Pedestal": "True"
         },
         "exits": {
-            "Temple of Time": "True"
+            "Temple of Time": "True",
+            "Beyond Door of Time Skippable Locations": "True"
+        }
+    },
+    {
+        # Directly reachable from Root in "Skip Reward from Rauru"
+        "region_name": "Beyond Door of Time Skippable Locations",
+        "hint": "TEMPLE_OF_TIME",
+        "locations": {
+            "ToT Reward from Rauru": "True"
         }
     },
     {
@@ -1648,14 +1657,14 @@
             "HC Zeldas Courtyard Mario Wonderitem": "can_use(Slingshot)"
         },
         "exits": {
-            "HC Garden Locations": "True",
+            "HC Garden Skippable Locations": "True",
             "Hyrule Castle Grounds": "True"
         }
     },
     {
-        # Directly reachable from Root in "Free Zelda"
-        "region_name": "HC Garden Locations",
-        "scene": "Castle Courtyard",
+        # Directly reachable from Root in Skip Child Zelda
+        "region_name": "HC Garden Skippable Locations",
+        "scene": "Castle Grounds",
         "hint": "HYRULE_CASTLE",
         "locations": {
             "HC Zeldas Letter": "True",
@@ -2522,8 +2531,6 @@
             "GC Upper Staircase Pot 3": "True",
             "GC Medigoron Pot": "can_blast_or_smash or Progressive_Strength_Upgrade",
             "GC GS Center Platform": "is_adult",
-            "GC Maze Gossip Stone Drop": "can_play(Song_of_Time) and (can_blast_or_smash or can_use(Silver_Gauntlets))",
-            "GC Maze Gossip Stone": "can_blast_or_smash or can_use(Silver_Gauntlets)",
             "GC Medigoron Gossip Stone Drop": "can_play(Song_of_Time) and (can_blast_or_smash or Progressive_Strength_Upgrade)",
             "GC Medigoron Gossip Stone": "can_blast_or_smash or Progressive_Strength_Upgrade",
             "Gossip Stone Fairy": "
@@ -2710,7 +2717,9 @@
             "GC Maze Center Chest": "True",
             "GC Maze Right Chest": "True",
             "GC Boulder Maze Crate": "can_break_crate",
-            "GC GS Boulder Maze": "is_child"
+            "GC GS Boulder Maze": "is_child",
+            "GC Maze Gossip Stone Drop": "can_play(Song_of_Time)",
+            "GC Maze Gossip Stone": "True"
         },
         "exits": {
             "GC Boulder Maze Left Chest": "
@@ -2870,10 +2879,10 @@
         "scene": "Death Mountain Crater",
         "hint": "DEATH_MOUNTAIN_CRATER",
         "locations": {
-            "DMC Near GC Pot 1": "is_adult",
-            "DMC Near GC Pot 2": "is_adult",
-            "DMC Near GC Pot 3": "is_adult",
-            "DMC Near GC Pot 4": "is_adult"
+            "DMC Near GC Pot 1": "is_adult or shuffle_empty_pots",
+            "DMC Near GC Pot 2": "is_adult or shuffle_empty_pots",
+            "DMC Near GC Pot 3": "is_adult or shuffle_empty_pots",
+            "DMC Near GC Pot 4": "is_adult or shuffle_empty_pots"
         },
         "exits": {
             "DMC Lower Local": "can_use(Goron_Tunic)",
@@ -3206,7 +3215,7 @@
             "ZF Ice Ledge": "is_adult",
             "ZF Great Fairy Fountain": "has_explosives",
             "ZF Underwater": "is_adult and Iron_Boots and (logic_fewer_tunic_requirements or Zora_Tunic)",
-            "ZF Hidden Cave": "can_pass_boulder('ZF_SECRET_SILVER_BOULDER') and can_pass_boulder('ZF_SECRET_BROWN_BOULDER')"
+            "ZF Hidden Cave Adult": "is_adult and (can_pass_boulder('ZF_SECRET_SILVER_BOULDER') and can_pass_boulder('ZF_SECRET_BROWN_BOULDER'))"
         }
     },
     {
@@ -3236,7 +3245,7 @@
         }
     },
     {
-        "region_name": "ZF Hidden Cave",
+        "region_name": "ZF Hidden Cave Adult",
         "scene": "Zoras Fountain",
         "hint": "ZORAS_FOUNTAIN",
         "locations": {

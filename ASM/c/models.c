@@ -13,7 +13,6 @@
 #define object_size 0x1E70
 #define num_vanilla_objects 0x192
 
-
 extern uint8_t SHUFFLE_CHEST_GAME;
 extern z64_object_table_t EXTENDED_OBJECT_TABLE[];
 extern EnItem00* collectible_mutex;
@@ -200,7 +199,7 @@ void collectible_draw_other(z64_actor_t* actor, z64_game_t* game) {
         draw_model(model, actor, game, 10.0);
         return;
     }
-    base_collectable_draw(actor,game);
+    base_collectable_draw(actor, game);
 }
 
 void heart_container_draw(z64_actor_t* actor, z64_game_t* game) {
