@@ -161,7 +161,7 @@ def build_world_graphs(settings: Settings) -> list[World]:
         if settings.empty_dungeons_mode == 'rewards':
             world.set_empty_dungeon_rewards(settings.empty_dungeons_rewards)
 
-    if settings.triforce_hunt:
+    if settings.triforce_hunt == 'on':
         settings.distribution.configure_triforce_hunt(worlds)
 
     logger.info('Setting Entrances.')

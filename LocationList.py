@@ -1048,7 +1048,7 @@ location_table: dict[str, tuple[str, Optional[int], LocationDefault, LocationAdd
 
     # Death Mountain Crater Enemies
     ("DMC Bubble Below Bridge To Fire Temple",                       ("EnemyDrop",    0x61, (1,2,9), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
-    ("DMC First Plank Bubble",                                       ("EnemyDrop",    0x61, (1,2,10), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
+    #("DMC First Plank Bubble",                                       ("EnemyDrop",    0x61, (1,2,10), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
     ("DMC Second Plank Bubble 1",                                    ("EnemyDrop",    0x61, (1,2,11), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
     ("DMC Second Plank Bubble 2",                                    ("EnemyDrop",    0x61, (1,2,12), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
     ("DMC Pierre Platform Bubble",                                   ("EnemyDrop",    0x61, (1,2,13), None,                      'Rupees (5)',                            ("Death Mountain Crater", "Death Mountain", "EnemyDrop"))),
