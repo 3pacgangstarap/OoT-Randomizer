@@ -163,7 +163,7 @@ def build_world_graphs(settings: Settings) -> list[World]:
         if world.settings.shuffle_dungeon_rewards in ('vanilla', 'reward'):
             world.fill_bosses()
 
-    if settings.triforce_hunt:
+    if settings.triforce_hunt == 'on':
         settings.distribution.configure_triforce_hunt(worlds)
 
     logger.info('Setting Entrances.')

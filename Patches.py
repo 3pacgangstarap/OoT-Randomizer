@@ -995,7 +995,7 @@ def patch_rom(spoiler: Spoiler, world: World, rom: Rom) -> Rom:
         rom.write_int32(symbol, 6)
         rom.write_int16(count_symbol, world.settings.bridge_hearts * 0x10)
 
-    if world.settings.triforce_hunt:
+    if world.settings.triforce_hunt == 'on':
         rom.write_int16(rom.sym('TRIFORCE_PIECES_REQUIRED'), world.triforce_goal)
         rom.write_int16(rom.sym('TRIFORCE_HUNT_ENABLED'), 1)
 

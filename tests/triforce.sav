@@ -16,7 +16,7 @@
 "zora_fountain": "closed",
 "gerudo_fortress": "fast",
 "bridge": "medallions",
-"triforce_hunt": true,
+"triforce_hunt": "on",
 "logic_rules": "glitchless",
 "reachable_locations": "all",
 "one_item_per_dungeon": false,

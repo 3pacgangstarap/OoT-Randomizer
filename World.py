@@ -130,7 +130,7 @@ class World:
             raise ValueError("Triforces required cannot be more than the triforce count.")
         self.triforce_goal: int = settings.triforce_goal_per_world * settings.world_count
 
-        if settings.triforce_hunt:
+        if settings.triforce_hunt == 'on':
             # Pin shuffle_ganon_bosskey to 'triforce' when triforce_hunt is enabled
             # (specifically, for randomize_settings)
             self.settings.shuffle_ganon_bosskey = 'triforce'
@@ -581,6 +581,12 @@ class World:
         elif self.settings.silver_rupee_pouches_choice == 'all':
             self.settings.silver_rupee_pouches = self.silver_rupee_puzzles()
 
+        # Choose planted beans
+        if self.settings.plant_beans == 'random':
+            beanspots = ['Zora River', 'Graveyard', 'Kokiri Forest', 'Lost Woods Near Bridge', 'Lost Woods Near Grotto', 'Death Mountain Trail', 'Lake Hylia', 'Gerudo Valley', 'Death Mountain Crater', 'Desert Colossus']
+            self.settings.bean_locations = random.sample(beanspots, random.randint(0, len(beanspots)))
+            self.randomized_list.append('bean_locations')
+
     def load_regions_from_json(self, file_path: str) -> list[tuple[Entrance, str]]:
         region_json = read_logic_file(file_path)
         savewarps_to_connect = []
@@ -828,7 +834,7 @@ class World:
         ganon = GoalCategory('ganon', 40, goal_count=1)
         trial_goal = Goal(self, 'the Tower', 'path to #the Tower#', 'White', items=[], create_empty=True)
 
-        if self.settings.triforce_hunt and self.settings.triforce_goal_per_world > 0:
+        if self.settings.triforce_hunt == 'on' and self.settings.triforce_goal_per_world > 0:
             # "Hintable" value of False means the goal items themselves cannot
             # be hinted directly. This is used for Triforce Hunt and Skull
             # conditions to restrict hints to useful items instead of the win
@@ -849,7 +855,7 @@ class World:
         # If there are no trials, a "path of the hero" clone of WOTH is created, which
         # is deprioritized compared to other goals. Path wording is used to distinguish
         # the hint type even though the hintable location set is identical to WOTH.
-        if not self.settings.triforce_hunt:
+        if self.settings.triforce_hunt == 'off':
             if self.settings.starting_age == 'child':
                 dot_items = [{'name': 'Temple of Time Access', 'quantity': 1, 'minimum': 1, 'hintable': True}]
                 if self.settings.open_door_of_time not in ('open', 'stones'):
@@ -1374,8 +1380,8 @@ class World:
         if self.settings.logic_rules == 'glitchless':
             # Giant's Knife cannot currently be required in any logic, but it was requested that it not be foolish in glitched or no logic.
             exclude_item_list.append('Giants Knife')
-        if self.settings.plant_beans:
-            # Magic Beans are useless if beans are already planted
+        if len(self.settings.bean_locations) == 10:
+            # Magic Beans are useless if all beans are already planted
             exclude_item_list.append('Magic Bean')
             exclude_item_list.append('Buy Magic Bean')
             exclude_item_list.append('Magic Bean Pack')

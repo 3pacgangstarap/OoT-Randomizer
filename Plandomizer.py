@@ -365,7 +365,7 @@ class WorldDistribution:
                     if self.distribution.settings.shuffle_song_items != "any":
                         self.major_group = [x for x in self.major_group if x not in item_groups['Song']]
                     # Special handling for things not included in base_pool
-                    if self.distribution.settings.triforce_hunt:
+                    if self.distribution.settings.triforce_hunt == 'on':
                         self.major_group.append('Triforce Piece')
                     major_tokens = ((self.distribution.settings.shuffle_ganon_bosskey == 'on_lacs' and
                             self.distribution.settings.lacs_condition == 'tokens') or

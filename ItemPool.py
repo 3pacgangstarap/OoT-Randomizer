@@ -631,7 +631,7 @@ def get_pool_core(world: World) -> tuple[list[str], dict[str, Item]]:
             pending_junk_pool.append('Fish (Child 10 lb)')
             pending_junk_pool.append('Fish (Adult 16 lb)')
 
-    if world.settings.triforce_hunt:
+    if world.settings.triforce_hunt =='on':
         pending_junk_pool.extend(['Triforce Piece'] * world.settings.triforce_count_per_world)
     if world.settings.shuffle_individual_ocarina_notes:
         pending_junk_pool.extend(ocarina_buttons)
