@@ -3112,7 +3112,6 @@ class SettingInfos:
                 ('random', 1),
             ],
         },
-)
     )
 
     key_rings = MultipleSelect(
