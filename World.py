@@ -126,14 +126,6 @@ class World:
                  )):
             self.settings.open_forest = 'closed_deku'
 
-        if settings.triforce_goal_per_world > settings.triforce_count_per_world:
-            raise ValueError("Triforces required cannot be more than the triforce count.")
-        self.triforce_goal: int = settings.triforce_goal_per_world * settings.world_count
-
-        if settings.triforce_hunt == 'on':
-            # Pin shuffle_ganon_bosskey to 'triforce' when triforce_hunt is enabled
-            # (specifically, for randomize_settings)
-            self.settings.shuffle_ganon_bosskey = 'triforce'
 
         # trials that can be skipped will be decided later
         self.skipped_trials: dict[str, bool] = {
@@ -175,6 +167,16 @@ class World:
 
         if resolve_randomized_settings:
             self.resolve_random_settings()
+
+        if settings.triforce_goal_per_world > settings.triforce_count_per_world:
+            raise ValueError("Triforces required cannot be more than the triforce count.")
+        self.triforce_goal: int = settings.triforce_goal_per_world * settings.world_count
+
+        if self.settings.triforce_hunt == 'on':
+            # Pin shuffle_ganon_bosskey to 'triforce' when triforce_hunt is enabled
+            # (specifically, for randomize_settings)
+            self.settings.shuffle_ganon_bosskey = 'triforce'
+
 
         self.song_notes: dict[str, Song] = generate_song_list(self,
             frog='frog' in settings.ocarina_songs,
@@ -408,15 +410,66 @@ class World:
         return new_world
 
     def set_random_bridge_values(self) -> None:
+        if self.settings.bridge == 'stones':
+            self.settings.bridge_stones = random.randint(1,3)
+            self.randomized_list.append('bridge_stones')
         if self.settings.bridge == 'medallions':
-            self.settings.bridge_medallions = 6
+            self.settings.bridge_medallions = random.randint(1,6)
             self.randomized_list.append('bridge_medallions')
         if self.settings.bridge == 'dungeons':
-            self.settings.bridge_rewards = 9
+            self.settings.bridge_rewards = random.randint(1,9)
             self.randomized_list.append('bridge_rewards')
-        if self.settings.bridge == 'stones':
-            self.settings.bridge_stones = 3
-            self.randomized_list.append('bridge_stones')
+        if self.settings.bridge == 'tokens':
+            self.settings.bridge_tokens = random.randint(1,self.settings.bridge_tokens)
+            self.randomized_list.append('bridge_tokens')
+        if self.settings.bridge == 'hearts':
+            self.settings.bridge_hearts = random.randint(4,self.settings.bridge_hearts)
+            self.randomized_list.append('bridge_hearts')
+
+    def set_random_lacs_values(self) -> None:
+        if self.settings.lacs_condition == 'stones':
+            self.settings.lacs_stones = random.randint(1,3)
+            self.randomized_list.append('lacs_stones')
+        if self.settings.lacs_condition == 'medallions':
+            self.settings.lacs_medallions = random.randint(1,6)
+            self.randomized_list.append('lacs_medallions')
+        if self.settings.lacs_condition == 'dungeons':
+            self.settings.lacs_rewards = random.randint(1,9)
+            self.randomized_list.append('lacs_rewards')
+        if self.settings.lacs_condition == 'tokens':
+            self.settings.lacs_tokens = random.randint(1,self.settings.lacs_tokens)
+            self.randomized_list.append('lacs_tokens')
+        if self.settings.lacs_condition == 'hearts':
+            self.settings.lacs_hearts = random.randint(4,self.settings.lacs_hearts)
+            self.randomized_list.append('lacs_hearts')
+
+    def set_random_ganonbk_values(self) -> None:
+        if self.settings.shuffle_ganon_bosskey == 'stones':
+            self.settings.ganon_bosskey_stones = random.randint(1,3)
+            self.randomized_list.append('ganon_bosskey_stones')
+        if self.settings.shuffle_ganon_bosskey == 'medallions':
+            self.settings.ganon_bosskey_medallions = random.randint(1,6)
+            self.randomized_list.append('ganon_bosskey_medallions')
+        if self.settings.shuffle_ganon_bosskey == 'dungeons':
+            self.settings.ganon_bosskey_rewards = random.randint(1,9)
+            self.randomized_list.append('ganon_bosskey_rewards')
+        if self.settings.shuffle_ganon_bosskey == 'tokens':
+            self.settings.ganon_bosskey_tokens = random.randint(1,self.settings.ganon_bosskey_tokens)
+            self.randomized_list.append('ganon_bosskey_tokens')
+        if self.settings.shuffle_ganon_bosskey == 'hearts':
+            self.settings.ganon_bosskey_hearts = random.randint(4,self.settings.ganon_bosskey_hearts)
+            self.randomized_list.append('ganon_bosskey_hearts')
+
+    def set_random_triforce_values(self) -> None:
+        if self.settings.triforce_hunt == 'on':
+            rannum1 = random.randint(int(self.settings.triforce_count_per_world/2),self.settings.triforce_count_per_world)
+            rannum2 = rannum1+1
+            while rannum1 < rannum2:
+                rannum2 = random.randint(int(self.settings.triforce_goal_per_world/2),self.settings.triforce_goal_per_world)
+            self.settings.triforce_count_per_world = rannum1
+            self.settings.triforce_goal_per_world = rannum2
+            self.randomized_list.append('triforce_count_per_world')
+            self.randomized_list.append('triforce_goal_per_world')
 
     def resolve_random_settings(self) -> None:
         # evaluate settings (important for logic, nice for spoiler)
@@ -447,8 +500,21 @@ class World:
                         or (setting == 'ganon_bosskey_tokens' and self.settings.shuffle_ganon_bosskey != 'tokens') \
                         or (setting == 'ganon_bosskey_hearts' and self.settings.shuffle_ganon_bosskey != 'hearts'):
                     self.randomized_list.remove(setting)
+
+        # Choose Reachable Locations random setting
+        if self.settings.reachable_locations == 'random':
+            self.settings.reachable_locations = random.choice(['all', 'goals', 'beatable'])
+            self.randomized_list.append('reachable_locations')
+
+        # Triforce hunt settings
+        if self.settings.triforce_hunt == 'random' and ('triforce_hunt' not in dist_keys
+             or self.distribution.distribution.src_dict['_settings']['triforce_hunt'] == 'random'):
+            self.settings.triforce_hunt = random.choice(['off', 'on'])
+            self.randomized_list.append('triforce_hunt')
+            self.set_random_triforce_values()
+
         if self.settings.big_poe_count_random and 'big_poe_count' not in dist_keys:
-            self.settings.big_poe_count = random.randint(1, 10)
+            self.settings.big_poe_count = random.randint(1, self.settings.big_poe_count)
             self.randomized_list.append('big_poe_count')
         # If set to random in GUI, we don't want to randomize if it was specified as non-random in the distribution
         if (self.settings.starting_tod == 'random'
@@ -468,7 +534,7 @@ class World:
                 self.settings.starting_age = random.choice(['child', 'adult'])
             self.randomized_list.append('starting_age')
         if self.settings.chicken_count_random and 'chicken_count' not in dist_keys:
-            self.settings.chicken_count = random.randint(0, 7)
+            self.settings.chicken_count = random.randint(0, self.settings.chicken_count)
             self.randomized_list.append('chicken_count')
 
         # Determine dungeons with shortcuts
@@ -487,14 +553,28 @@ class World:
         elif self.settings.key_rings_choice == 'all':
             self.settings.key_rings = areas
 
+        # Handle random LACS condition
+        if self.settings.lacs_condition == 'random' and ('lacs_condition' not in dist_keys
+             or self.distribution.distribution.src_dict['_settings']['lacs_condition'] == 'random'):
+            self.settings.lacs_condition = random.choice(["vanilla", "stones", "medallions", "dungeons", "tokens", "hearts"])
+            self.randomized_list.append('lacs_condition')
+            self.set_random_lacs_values()
+
         # Handle random Rainbow Bridge condition
         if (self.settings.bridge == 'random'
             and ('bridge' not in dist_keys
              or self.distribution.distribution.src_dict['_settings']['bridge'] == 'random')):
-            possible_bridge_requirements = ["open", "medallions", "dungeons", "stones", "vanilla"]
-            self.settings.bridge = random.choice(possible_bridge_requirements)
-            self.set_random_bridge_values()
+            self.settings.bridge = random.choice(["open", "vanilla", "stones", "medallions", "dungeons", "tokens", "hearts"])
             self.randomized_list.append('bridge')
+            self.set_random_bridge_values()
+
+        # Handle random Ganon Boss Key condition
+        if (self.settings.shuffle_ganon_bosskey == 'random'
+            and ('shuffle_ganon_bosskey' not in dist_keys
+             or self.distribution.distribution.src_dict['_settings']['shuffle_ganon_bosskey'] == 'random')):
+            self.settings.shuffle_ganon_bosskey = random.choice(["keysanity", "on_lacs", "stones", "medallions", "dungeons", "tokens", "hearts"])
+            self.randomized_list.append('shuffle_ganon_bosskey')
+            self.set_random_ganonbk_values()
 
         # Determine Ganon Trials
         trial_pool = list(self.skipped_trials)
