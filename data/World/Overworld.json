@@ -3108,7 +3108,7 @@
             "DMC Bean Plant Fairy 2": "can_summon_bean_fairy or (is_child and (can_plant_bean or 'Death Mountain Crater' in bean_locations) and can_play(Song_of_Storms))",
             "DMC Bean Plant Fairy 3": "can_summon_bean_fairy or (is_child and (can_plant_bean or 'Death Mountain Crater' in bean_locations) and can_play(Song_of_Storms))",
             "DMC GS Bean Patch": "can_plant_bugs and can_child_attack",
-            "Bean Plant Fairy": "is_child and (can_plant_bean or 'Death Mountain Crater' in bean_locations) and can_play(Song_of_Storms) and has_bottle",
+            "Bean Plant Fairy": "is_child and (can_plant_bean or 'Death Mountain Crater' in bean_locations) and can_play(Song_of_Storms) and has_bottle"
         },
         "exits": {
             "DMC Central Nearby": "True",
